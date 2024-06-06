@@ -38,9 +38,38 @@ if (isset($_POST['Submit_emp']) ){
   }else{
     echo "Failed " ; 
   }
+}
 
+function emp_delete(){
+  require_once("connect.php");
+  $sql = "DELETE FROM employee_details WHERE id=3";
 
+if ($conn->query($sql) === TRUE) {
+  echo' <div class="modal" id="myModal">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
 
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="modal-title">Record deleted successfully</h5>        
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+      <i class="bi bi-check-circle bi-primary"></i>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal" >Okay</button>
+      </div>
+
+    </div>
+  </div>
+</div>';
+} else {
+  echo "Error deleting record: ";
+}
 
 }
 
@@ -110,6 +139,19 @@ if (isset($_POST['Submit_emp']) ){
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
             crossorigin="anonymous"
         ></script>
+        <style>
+          footer {
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.5);   
+    background-color: #f8f9fa;
+    padding: 20px; 
+    text-align: center;
+}
+
+.table-wrapper {
+            max-height: 600px; 
+            overflow-y: auto; 
+        }
+        </style>
 </head>
 <body>
 <header>
@@ -152,9 +194,14 @@ if (isset($_POST['Submit_emp']) ){
 </div></div>
 </nav><br>
 
-<div id="Employees" class="container-fluid d-flex container-xl"><br>
-                    <div class="row">
-                      <div class="col">
+<div id="Employees" class="container-fluid d-flex container-xl"
+                              
+style=" border: 2px solid rgba( 255,255,255, .2);
+                                  backdrop-filter: blur(20px);                
+                                  border-radius: 10px;
+                                  box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);"><br>
+                    <div class="col">
+                      <div class="container-responsive mt-3">
                         <div class="input-group mb-3">
                           <input type="text" class="form-control" placeholder="Search Employee" id="Search_txt" name="Search_txt">
                           <button class="btn btn-outline-dark" type="submit" id="Search_btn" name="Search_btn">
@@ -167,7 +214,7 @@ if (isset($_POST['Submit_emp']) ){
                         </div>
                         </div> 
                         <div class="container-responsive mt-3">
-                                  
+                              
                           <table class="table table-striped" id="Employee_table">
                             <thead class="table-dark">
                               <tr>
@@ -227,16 +274,8 @@ if (isset($_POST['Submit_emp']) ){
                                                 >
                                                 <i class='bi bi-pencil'></i>
                                                 </button>    
-                                                <button type='button' class='View_btn  btn btn-outline-dark ' href='#View_Employee_Modal' data-bs-toggle='modal' id='View_btn'
-                                                Vdata-id='{$id}'
-                                                Vdata-fname='{$name}'
-                                                Vdata-lname='{$lname}'
-                                                Vdata-nid='{$nid}'
-                                                Vdata-pid='{$pno}'
-                                                Vdata-email='{$pemail}'
-                                                Vdata-role='{$prole}'
-                                                Vdata-date='{$dofb}'
-                                                Vdata-gender='{$gender}'
+                                                <button type='button' class='delete_btn  btn btn-outline-dark ' href='#View_Employee_Modal' data-bs-toggle='modal' id='View_btn'
+                                                Vdata-id='{$id}'                                            
                                                 >
                                                 <i class='bi bi-trash'></i>
                                                 </button>                                   
@@ -254,6 +293,7 @@ if (isset($_POST['Submit_emp']) ){
                             
                               </tbody>
                           </table>
+                        
                         </div>
 
                       </div>                     
@@ -312,40 +352,6 @@ if (isset($_POST['Submit_emp']) ){
   </div>
   <!--  -->
 
-
-  <!-- This is the employee view Modal -->
-<div class="modal" id="View_Employee_Modal">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content ">
-
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">Employee details</h4>
-        <button type="button" class="btn-close btn-outline-dark" data-bs-dismiss="modal"></button> 
-      </div>
-
-      <!-- Modal body -->
-      <div class="modal-body">
-      
-                     <input type="text" class="form-control mt-3" placeholder="Customer id" id="Vedit-id" >
-                      <p class="h5" id="Vedit-id"></p>
-                      <input type="text" class="form-control mt-3" placeholder="First name" id="Vedit-fname">
-                      <input type="text" class="form-control mt-3" placeholder="Last name" id="Vedit-lname">
-                      <input type="text" class="form-control mt-3" placeholder="National id number" id="Vedit-national-id">
-                      <input type="text" class="form-control mt-3" placeholder="Phone number" id="Vedit-phone-no">
-                      <input type="text" class="form-control mt-3" placeholder="Email address" id="Vedit-email">
-                      <input type="text" class="form-control mt-3" placeholder="Date of hire"  id="Vedit-date"> 
-                      <input type="text" class="form-control mt-3" placeholder="Role"  id="Vedit-role">
-                      <input type="text" class="form-control mt-3" placeholder="Gender"  id="Vedit-gender">
-            
-      </div>  
-                       
-                    
-
-                    </div></div>
-  </div>
-  <!--  -->
-
   <script>
     var btns = document.getElementsByClassName("Update_btn","View_btn");
     var modal = document.getElementById('Update_Employee_Modal','View_Employee_Modal');
@@ -369,24 +375,7 @@ if (isset($_POST['Submit_emp']) ){
   </script>
 
 <script>
-    var btns1 = document.getElementsByClassName("View_btn");
-    var modal1 = document.getElementById('View_Employee_Modal');
-    var span = document.getElementsByClassName("close")[0];
-    for (var i = 0; i < btns1.length; i++) {
-        btns1[i].onclick = function () {
-          modal1.style.display = "block";            
-            document.getElementById('Vedit-id').value = this.getAttribute('Vdata-id');
-            document.getElementById('Vedit-fname').value = this.getAttribute('Vdata-fname');
-            document.getElementById('Vedit-lname').value = this.getAttribute('Vdata-lname');
-            document.getElementById('Vedit-national-id').value = this.getAttribute('Vdata-nid');
-            document.getElementById('Vedit-phone-no').value = this.getAttribute('Vdata-pid');
-            document.getElementById('Vedit-email').value = this.getAttribute('Vdata-email');
-            document.getElementById('Vedit-date').value = this.getAttribute('Vdata-role');
-            document.getElementById('Vedit-role').value = this.getAttribute('Vdata-date');
-            document.getElementById('Vedit-gender').value = this.getAttribute('Vdata-gender');
-        }
-        
-    }
+    
 
   </script>
 
@@ -438,8 +427,17 @@ if (isset($_POST['Submit_emp']) ){
 
 
 </div>
-</main>
-<footer></footer>
+</main><br><br>
+<footer>
+<div class="container-fluid ">
+
+<a class="navbar-brand" >
+    <img src="E1.png" alt="Avatar Logo" style="width:40px;" class="rounded-pill"> 
+  </a>
+  <p class="h3"> Exen Limited </p>
+                
+</div>
+</footer>
     
 </body>
 </html>

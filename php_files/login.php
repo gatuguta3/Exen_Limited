@@ -72,22 +72,31 @@ if($conn-> connect_error){
              
              <style>
               body{
-                background: #444446;
-                background: radial-gradient(circle at center, #444446 20%, #0c0c25 100%);                                  
+                font-family: 'Montserrat', sans-serif;
+                background: #f6f5f7;
                 display: flex;
+                flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                min-height: 100vh;
+                height: 100vh;
+                margin: -20px 0 50px;
+                margin-top: 20px;
                 
               }
               .Main{
                 width: 520px;
                 height: 437px;
-                background: transparent;
+                background: #0d0d0d;
                 color: #f7f8f6;
                 padding: 30px 40px;
                 border: 2px solid rgba( 255,255,255, .2);
-                backdrop-filter: blur(20px);
+                backdrop-filter: blur(20px);                
+                border-radius: 10px;
+                box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);
+                position: relative;
+                overflow: hidden;   
+                max-width: 100%;
+                min-height: 480px;
               }
               .Main h1{
                 font-size: 36px;
@@ -168,7 +177,7 @@ if($conn-> connect_error){
         <div class="Password">
           <input type="Password" id="password" name="password" placeholder="Password" required>
         </div><br><br>
-        <button type="submit" class="submit btn-outline-dark">Login</button>        
+        <button type="submit" class="submit ">Login</button>        
       </form><br>
       <div class="form-check mb-3">
       <label class="form-check-label">

@@ -40,6 +40,9 @@
               integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
               crossorigin="anonymous"
           ></script>
+          <style>
+         
+          </style>
 </head>
 <body>
   <header>
@@ -82,8 +85,11 @@
 </div></div>
 </nav><br>
             <div id="Suppliers" class="container-fluid container-xl bg-transparent"><br>
-                                <div class="row">
-                                <div class="col">
+                                <div class="row " style="border: 2px solid rgba( 255,255,255, .2);
+                                                          backdrop-filter: blur(20px);                
+                                                          border-radius: 10px;
+                                                          box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);">
+                                <div class="col mt-3">
 
                                     <div class="input-group mb-3">
                                     <input type="text" class="form-control" placeholder="Search Supplier">
@@ -208,7 +214,9 @@
   </div>
 </div>
   </main>
-  <footer></footer>
+  <footer>
+ 
+  </footer>
     
 </body>
 </html>

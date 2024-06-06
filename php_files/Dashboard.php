@@ -115,6 +115,25 @@ $result4 = $conn->query($sql4);
           .custom-border {
             border: 2px solid #000000; /* Change the color and thickness as needed */
           }
+
+          .card{
+                border: 2px solid rgba( 255,255,255, .2);
+                backdrop-filter: blur(20px);                
+                border-radius: 10px;
+                box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);
+          }
+
+          footer {
+                box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.5);   
+                background-color: #f8f9fa;
+                padding: 20px; 
+                text-align: center;
+            }
+            .list-group-item {             
+            padding: 10px; /* Increase padding */
+            height: 50px; /* Set fixed height */
+            }
+ 
         </style>            
     </head>
 
@@ -177,44 +196,51 @@ $result4 = $conn->query($sql4);
                   <div id="Dashboard" class="container-fluid  bg-transparent container-xxl">
                     
                         <div class="row">
-                            <div class="col-sm-4">
-                                            <div class="card bg-outline-dark p-2 my-4">                                                
+                                            <div class="col">
+                                            <div class=" card bg-outline-dark p-2 my-4">                                                
                                                 <div class="card-body">
                                                 <h4 class="card-title">Registered customers</h4>
                                                 <p class="card-text"> <?php echo $rowCount; ?> </p>
-                                                <button type="button" class="btn btn-outline-dark" id="C_cust_btn">See all</button>
+                                                <button type="button" class="btn btn-outline-dark" id="C_cust_btn"><i class="bi bi-eye"></i></button>
                                                 </div>                                            
                                             </div>
+                                            </div>
 
+                                            <div class="col">
                                             <div class="card bg-outline-dark p-2 my-4">                                                
                                                 <div class="card-body">
                                                 <h4 class="card-title">Suppliers</h4>
                                                 <p class="card-text"> <?php echo $rowCount2; ?> </p>
-                                                <button type="button" class="btn btn-outline-dark" id="C_pcust_btn">See all</button>
+                                                <button type="button" class="btn btn-outline-dark" id="C_pcust_btn"><i class="bi bi-eye"></i></button>
                                                 </div>                                            
                                             </div>
+                                            </div>
 
+                                            <div class="col">
                                             <div class="card bg-outline-dark p-2 my-4">                                                
                                                 <div class="card-body">
                                                 <h4 class="card-title">Employees</h4>
                                                 <p class="card-text"> <?php echo $rowCount1; ?> </p>
-                                                <button type="button" class="btn btn-outline-dark" id="C_emp_btn">See all</button>
+                                                <button type="button" class="btn btn-outline-dark" id="C_emp_btn"><i class="bi bi-eye"></i></button>
                                                 </div>                                            
                                             </div>
+                                            </div>
 
-                                            <div class="card bg-outline-dark">                                                
+                                            <div class="col">
+                                            <div class="card bg-outline-dark p-2 my-4">                                                
                                                 <div class="card-body">
                                                 <h4 class="card-title">Projects</h4>
                                                 <p class="card-text">0</p>
-                                                <button type="button" class="btn btn-outline-dark" id="C_pro_btn">See all</button>
-                                                </div>                                            
-                                            </div>
+                                                <button type="button" class="btn btn-outline-dark" id="C_pro_btn"><i class="bi bi-eye"></i></button>
+                                                </div> 
+                                                </div>                                           
+                                          
 
                             </div>
 
-                              <div class="col">
-                                         <div class="container p-5 my-5  text-white">
-                                          <div id="demo" class="carousel slide" data-bs-ride="carousel">
+                              <div class="row">
+                                         <div class="container mt-5   p-3 my-3 text-white">
+                                          <div id="demo" class="carousel slide " data-bs-ride="carousel">
 
                                             <!-- Indicators/dots -->
                                             <div class="carousel-indicators">
@@ -258,32 +284,49 @@ $result4 = $conn->query($sql4);
                                           </div>
                                             </div>
                                      </div>
-                        </div>
+                        </div><br><br>
+
                         <div class="row">
-                        <div class="col-sm-5 custom-border">
-                                         <div class="container p-5 my-5 h-75  text-dark">
+
+                        <div class="col" 
+                                                
+                            style=" border: 2px solid rgba( 255,255,255, .2);
+                                      backdrop-filter: blur(20px);                
+                                      border-radius: 10px;
+                                      box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);">
+
+                                         <div class="container p-2 my-4  text-dark mt-3">
                                              <h1>Feedback</h1>
-                                             <ul class="list-group list-group-flush">
-                                           
+                                             <ul class="list-group list-group-flush">                                           
                                       <?php
                                         if($result4->num_rows >0){
                                           while($row4 = $result4->fetch_assoc()){
                                             $id=$row4["Cust_Id"];
                                             $name=$row4["Description"];
 
-                                            echo" <li class='list-group-item bg-dark text-primary rounded-pill'>";
-                                            echo" <span class='badge bg-dark rounded-pill'>$id</span>";
-                                            echo"<p>$name</p> ";
+                                            echo" <li class='list-group-item  text-primary rounded-pill d-flex '  style='border: 2px solid rgba( 255,255,255, .2);
+                                            backdrop-filter: blur(20px);                
+                                            border-radius: 10px;
+                                            box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);' >";
+                                            echo" <span class='badge  rounded-pill text-dark'>$id </span>";
+                                            echo" <p>$name</p>";
                                             echo"</li>";
+                                            echo"<br>";
                                           }}else{
                                             echo "<tr><td colspan='3'>No data found</td></tr>";
                                         }                                       
                                       
                                       ?>  </ul>
                                            </div>
-                              </div> 
-                              <div class="col-sm-6">
-                              <div class="container-responsive mt-3">
+                              </div> <div class="col-sm-1"></div>
+                              
+                              <div class="col" 
+                                                      
+                         style=" border: 2px solid rgba( 255,255,255, .2);
+                                  backdrop-filter: blur(20px);                
+                                  border-radius: 10px;
+                                  box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);">
+                              <div class="container-responsive mt-3 p-2 my-4">
                               <p class="h2">Users accounts</p>  
                               <div class="input-group mb-3">
                           <input type="text" class="form-control" placeholder="Search user by email" id="Search_txt" name="Search_txt">
@@ -324,7 +367,7 @@ $result4 = $conn->query($sql4);
                                         echo "<td>" ;
                                         echo "<div class='dropdown'>
                                                   <button type='button' class='btn btn-outline-dark dropdown-toggle' data-bs-toggle='dropdown'>
-                                                    Actions
+                                                  <i class='bi bi-gear'></i>
                                                   </button>
                                                 <ul class='dropdown-menu'>
                                                 <li><a class='dropdown-item' href='javascript:void()' >Approve account</a></li>
@@ -373,19 +416,20 @@ $result4 = $conn->query($sql4);
                 </div>
             </div>
 
-        </main><br>
+        </main><br><br>
 
 <!-- place footer here -->
         <footer>
-        <div class="container-fluid text-bg-dark">
+        <div class="container-fluid ">
 
-          <a class="navbar-brand" >
-              <img src="E1.png" alt="Avatar Logo" style="width:40px;" class="rounded-pill"> 
-            </a>
-            <p class="h3"> Exen Limited </p>
-                          
-          </div>
+<a class="navbar-brand" >
+    <img src="E1.png" alt="Avatar Logo" style="width:40px;" class="rounded-pill"> 
+  </a>
+  <p class="h3"> Exen Limited </p>
+                
+</div>
         </footer>
 
     </body>
 </html>
+shssk

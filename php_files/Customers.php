@@ -47,10 +47,7 @@ $result1 = $conn->query($sql1);
                 $('#ID').val(id);              
               }
             })
-          });
-
-
-                
+          });               
 
    });
 
@@ -66,6 +63,10 @@ $result1 = $conn->query($sql1);
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
             crossorigin="anonymous"
         ></script>
+
+        <style>
+
+        </style>
 </head>
 <body>
 <header>
@@ -110,8 +111,11 @@ $result1 = $conn->query($sql1);
 </nav><br>
   
     <div id="Customers" class="container-fluid container-xl">
-                        <div class="row">
-                          <div class="col">
+                        <div class="row" style="border: 2px solid rgba( 255,255,255, .2);
+                backdrop-filter: blur(20px);                
+                border-radius: 10px;
+                box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);">
+                          <div class="col mt-4">
                             <div class="input-group mb-3">
                               <input type="text" class="form-control" placeholder="Search customer">
                               <button class="btn btn-outline-dark" type="submit">
@@ -150,7 +154,7 @@ $result1 = $conn->query($sql1);
                                           echo "<td>" ;
                                           echo "
                                           <button type='button' class='btn btn-outline-dark '>
-                                          <i class='bi bi-eye'></i> View
+                                          <i class='bi bi-eye'></i>
                                           </button>
                                                ";                   
                                               
@@ -206,6 +210,9 @@ $result1 = $conn->query($sql1);
     </div>
 
 </main>
+<footer>
+
+</footer>
   
 </body>
 </html>

@@ -87,8 +87,11 @@ require_once("connect.php");
 
 
 <div id="Supplies" class="container-fluid container-xl bg-transparent"><br>
-                                <div class="row">
-                                <div class="col">
+                                <div class="row" style="border: 2px solid rgba( 255,255,255, .2);
+                backdrop-filter: blur(20px);                
+                border-radius: 10px;
+                box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);">
+                                <div class="col mt-4">
 
                                     <div class="input-group mb-3">
                                     <input type="text" class="form-control" placeholder="Search Supply">

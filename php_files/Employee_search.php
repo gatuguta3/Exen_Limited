@@ -5,7 +5,7 @@ require_once("connect.php");
 //`Emp_Firstname`, `Emp_lastname`, `Emp_national_Id`, `Emp_Phonenumber`, `Emp_emailAddress`, `Emp_role`, 
 // name LIKE '%$query%' OR
 $query = $_POST['query'];
-$sql="SELECT * FROM employee_details WHERE Emp_Firstname LIKE '%$query%' ";
+$sql="SELECT * FROM employee_details WHERE Emp_Firstname OR Emp_lastname LIKE '%$query%' ";
 
 $result = $conn->query($sql);
 

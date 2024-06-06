@@ -393,7 +393,7 @@ style=" border: 2px solid rgba( 255,255,255, .2);
       <!-- Modal body -->
       <div class="modal-body">           
       <form method="POST">
-                      <input type="file" class="form-control mt-3" placeholder="Choose image" id="image" name="image">                         
+                                              
                       <input type="text" class="form-control mt-3" placeholder="First name" id="FN_emp" name="FN_emp">
                       <input type="text" class="form-control mt-3" placeholder="Last name" id="LS_emp" name="LS_emp">
                       <input type="text" class="form-control mt-3" placeholder="National id number" id="ID_emp" name="ID_emp">
@@ -412,6 +412,7 @@ style=" border: 2px solid rgba( 255,255,255, .2);
                         <div class="form-check">
                         <input type="radio" class="form-check-input" id="radio2" name="optradio" value="Female">
                         <label class="form-check-label" for="radio2">Female</label> 
+                        <input type="file" class="form-control mt-3" placeholder="Choose employee's image" id="image" name="image">
                      <!-- Modal footer -->
                     <div class="modal-footer">
                     <button class="btn btn-outline-dark mt-2" type="submit" name="Submit_emp">Submit</button>                    

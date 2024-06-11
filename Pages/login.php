@@ -103,6 +103,11 @@ if($conn-> connect_error){
                 text-align: center;
 
               }
+              .Main h2{
+                font-size: 36px;
+                text-align: center;
+
+              }
               .Main .Username {
                 width: 90%;
                 height: 50px;
@@ -169,8 +174,8 @@ if($conn-> connect_error){
     
     <div class="Main">      
       <form  method="POST" class="Login_Form">
-        
-          <h1>Admin</h1>
+          <h1>EXEN LIMITED</h1>
+          <h2>Admin</h2>          
           <div class="Username">
             <input type="text" id="Username"  name="Username" placeholder="Username" required>
         </div>

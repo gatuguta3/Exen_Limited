@@ -40,38 +40,6 @@ if (isset($_POST['Submit_emp']) ){
   }
 }
 
-function emp_delete(){
-  require_once("connect.php");
-  $sql = "DELETE FROM employee_details WHERE id=3";
-
-if ($conn->query($sql) === TRUE) {
-  echo' <div class="modal" id="myModal">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h5 class="modal-title">Record deleted successfully</h5>        
-      </div>
-
-      <!-- Modal body -->
-      <div class="modal-body">
-      <i class="bi bi-check-circle bi-primary"></i>
-      </div>
-
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal" >Okay</button>
-      </div>
-
-    </div>
-  </div>
-</div>';
-} else {
-  echo "Error deleting record: ";
-}
-
-}
 
 
 ?>
@@ -109,24 +77,7 @@ if ($conn->query($sql) === TRUE) {
     success: function (response) {
       
     }
-  });          
-
-     });
-
-     $(document).ready(function() {
-            $("#Search_btn").click(function() {
-                var query = $("#Search_txt").val();
-                $.ajax({
-                    url: "Employee_search.php",
-                    type: "POST",
-                    data: { query: query },
-                    success: function(response) {
-                        $("#Employee_table tbody").html(response);
-                    }
-                });
-            });
-        });
-
+  });      
 </script>
 <!-- Bootstrap JavaScript Libraries -->
 <script
@@ -300,11 +251,12 @@ style=" border: 2px solid rgba( 255,255,255, .2);
                     </div>               
 </div>
 <script>
+
   $(document).ready(function() {
             $("#Search_btn").click(function() {
                 var query = $("#Search_txt").val();
                 $.ajax({
-                    url: "Employee_search.php",
+                    url: "/Exen_Limited/Functions/Employees_functions/Employee_search.php",
                     type: "POST",
                     data: { query: query },
                     success: function(response) {
@@ -392,7 +344,7 @@ style=" border: 2px solid rgba( 255,255,255, .2);
 
       <!-- Modal body -->
       <div class="modal-body">           
-      <form method="POST">
+      <form method="POST" style="width:60vw; ">
                                               
                       <input type="text" class="form-control mt-3" placeholder="First name" id="FN_emp" name="FN_emp">
                       <input type="text" class="form-control mt-3" placeholder="Last name" id="LS_emp" name="LS_emp">

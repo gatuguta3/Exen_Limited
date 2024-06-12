@@ -1,10 +1,9 @@
 <?php
-require_once "php_files\connect.php";
+require __DIR__ . '/../../Pages/connect.php';
 
 
-//`Emp_Firstname`, `Emp_lastname`, `Emp_national_Id`, `Emp_Phonenumber`, `Emp_emailAddress`, `Emp_role`, 
-// name LIKE '%$query%' OR
 $query = $_POST['query'];
+
 $sql="SELECT * FROM employee_details WHERE Emp_Firstname OR Emp_lastname LIKE '%$query%' ";
 
 $result = $conn->query($sql);
@@ -51,16 +50,8 @@ if ($result->num_rows > 0) {
                 >
                 <i class='bi bi-pencil'></i>
                 </button>    
-                <button type='button' class='View_btn  btn btn-outline-dark ' href='#View_Employee_Modal' data-bs-toggle='modal' id='View_btn'
-                Vdata-id='{$id}'
-                Vdata-fname='{$name}'
-                Vdata-lname='{$lname}'
-                Vdata-nid='{$nid}'
-                Vdata-pid='{$pno}'
-                Vdata-email='{$pemail}'
-                Vdata-role='{$prole}'
-                Vdata-date='{$dofb}'
-                Vdata-gender='{$gender}'
+                <button type='button' class='View_btn  btn btn-outline-dark ' id='View_btn'
+                Vdata-id='{$id}'            
                 >
                 <i class='bi bi-trash'></i>
                 </button>                                   
@@ -108,39 +99,6 @@ if ($result->num_rows > 0) {
   </div>
   <!--  -->
 
-    <!-- This is the employee view Modal -->
-<div class="modal" id="View_Employee_Modal">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content ">
-
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">Employee details</h4>
-        <button type="button" class="btn-close btn-outline-dark" data-bs-dismiss="modal"></button> 
-      </div>
-
-      <!-- Modal body -->
-      <div class="modal-body">
-      
-                     <input type="text" class="form-control mt-3" placeholder="Customer id" id="Vedit-id" >
-                      <p class="h5" >Customer Id: <span id="Vedit-id"></span></p>
-                      <input type="text" class="form-control mt-3" placeholder="First name" id="Vedit-fname">
-                      <input type="text" class="form-control mt-3" placeholder="Last name" id="Vedit-lname">
-                      <input type="text" class="form-control mt-3" placeholder="National id number" id="Vedit-national-id">
-                      <input type="text" class="form-control mt-3" placeholder="Phone number" id="Vedit-phone-no">
-                      <input type="text" class="form-control mt-3" placeholder="Email address" id="Vedit-email">
-                      <input type="text" class="form-control mt-3" placeholder="Date of hire"  id="Vedit-date"> 
-                      <input type="text" class="form-control mt-3" placeholder="Role"  id="Vedit-role">
-                      <input type="text" class="form-control mt-3" placeholder="Gender"  id="Vedit-gender">
-            
-      </div>  
-                       
-                    
-
-                    </div></div>
-  </div>
-  <!--  -->
-
   <script>
     var btns = document.getElementsByClassName("Update_btn");
     var modal = document.getElementById('Update_Employee_Modal',);
@@ -160,39 +118,5 @@ if ($result->num_rows > 0) {
         }
         
     }
-
-  </script>
-
-<script>
-    var btns1 = document.getElementsByClassName("View_btn");
-    var modal1 = document.getElementById('View_Employee_Modal');
-    var span = document.getElementsByClassName("close")[0];
-    for (var i = 0; i < btns1.length; i++) {
-        btns1[i].onclick = function () {
-          modal1.style.display = "block";            
-            document.getElementById('Vedit-id').value = this.getAttribute('Vdata-id');
-            document.getElementById('Vedit-fname').value = this.getAttribute('Vdata-fname');
-            document.getElementById('Vedit-lname').value = this.getAttribute('Vdata-lname');
-            document.getElementById('Vedit-national-id').value = this.getAttribute('Vdata-nid');
-            document.getElementById('Vedit-phone-no').value = this.getAttribute('Vdata-pid');
-            document.getElementById('Vedit-email').value = this.getAttribute('Vdata-email');
-            document.getElementById('Vedit-date').value = this.getAttribute('Vdata-role');
-            document.getElementById('Vedit-role').value = this.getAttribute('Vdata-date');
-            document.getElementById('Vedit-gender').value = this.getAttribute('Vdata-gender');
-        }
-        
-    }
-
-  </script>
-  <script>
-    $(document).ready(function() {
-            $('#View_Employee_Modal').on('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget);
-                var name = button.data('name');
-                var details = button.data('details');
-                $('#modalName').text(name);
-                $('#modalDetails').text(details);
-            });
-        });
 
   </script>

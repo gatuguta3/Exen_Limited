@@ -58,7 +58,7 @@ $result2 = $conn->query($sql2);
               </nav>
     </header>
     <main>
-    <nav class="navbar">
+<nav class="navbar">
 <div class="container">
 <p class="h2">Products</p>
 <div class="dropdown dropstart ">                                                         

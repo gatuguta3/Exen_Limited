@@ -144,6 +144,16 @@ if (isset($_POST['Submit_emp']) ){
   </ul>
 </div></div>
 </nav><br>
+<div class="container">
+    <?php
+    if (isset($_GET["msg"])) {
+      $msg = $_GET["msg"];
+      echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+      ' . $msg . '
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>';
+    }
+    ?>
 
 <div id="Employees" class="container-fluid d-flex container-xl"
                               
@@ -225,8 +235,8 @@ style=" border: 2px solid rgba( 255,255,255, .2);
                                                 >
                                                 <i class='bi bi-pencil'></i>
                                                 </button>    
-                                                <button type='button' class='delete_btn  btn btn-outline-dark ' href='#View_Employee_Modal' data-bs-toggle='modal' id='View_btn'
-                                                Vdata-id='{$id}'                                            
+                                                <button type='button' class='delete_btn  btn btn-outline-dark ' data-bs-toggle='modal' id='View_btn'
+                                                data-id='{$id}'                                            
                                                 >
                                                 <i class='bi bi-trash'></i>
                                                 </button>                                   
@@ -283,11 +293,11 @@ style=" border: 2px solid rgba( 255,255,255, .2);
       <div class="modal-body">
       <form id="updateForm">      
                      <input type="hidden" class="form-control mt-3" placeholder="Customer id" id="edit-id" >
+                     <input type="text" class="form-control mt-3" readonly class="form-control-plaintext" placeholder="Email address" id="edit-email">
                       <input type="text" class="form-control mt-3" placeholder="First name" id="edit-fname">
                       <input type="text" class="form-control mt-3" placeholder="Last name" id="edit-lname">
                       <input type="text" class="form-control mt-3" placeholder="National id number" id="edit-national-id">
                       <input type="text" class="form-control mt-3" placeholder="Phone number" id="edit-phone-no">
-                      <input type="text" class="form-control mt-3" placeholder="Email address" id="edit-email">
                       <input type="text" class="form-control mt-3" placeholder="Date of hire"  id="edit-date"> 
                       <input type="text" class="form-control mt-3" placeholder="Role"  id="edit-role">
                       <input type="text" class="form-control mt-3" placeholder="Gender"  id="edit-gender">

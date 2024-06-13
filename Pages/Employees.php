@@ -196,7 +196,7 @@ style=" border: 2px solid rgba( 255,255,255, .2);
                             <?php
                                     if ($result3->num_rows > 0) {
                                     while ($row3 = $result3->fetch_assoc()) {
-                                        $id=$row3["Emp_Id"];
+                                       ;
                                         $name=$row3["Emp_Firstname"] ;
                                         $lname=$row3["Emp_lastname"];
                                         $nid=$row3["Emp_national_Id"];
@@ -212,7 +212,7 @@ style=" border: 2px solid rgba( 255,255,255, .2);
                                     
                                       echo "<tr>";
                                       echo "<td> <img src='$img_src' style='width:30px; length: 30px;' class='rounded-pill'></td>";
-                                      echo "<td> {$id}</td>";
+                                      echo "<td> {$row3 ['Emp_Id']}</td>";
                                       echo "<td>{$name}</td>";
                                       echo "<td>{$lname}</td>";
                                       echo "<td>{$nid}</td>";
@@ -222,19 +222,7 @@ style=" border: 2px solid rgba( 255,255,255, .2);
                                       echo"<td>{$dofb }</td>";
                                       echo"<td>{$gender }</td>";
                                       echo "<td>" ;
-                                      echo "   <button type='button' class='Update_btn  btn btn-outline-dark ' href='#Update_Employee_Modal' data-bs-toggle='modal' id='Update_btn'
-                                                data-id='{$id}'
-                                                data-fname='{$name}'
-                                                data-lname='{$lname}'
-                                                data-nid='{$nid}'
-                                                data-pid='{$pno}'
-                                                data-email='{$pemail}'
-                                                data-role='{$prole}'
-                                                data-date='{$dofb}'
-                                                data-gender='{$gender}'
-                                                >
-                                                <i class='bi bi-pencil'></i>
-                                                </button>    
+                                      echo "   <a class='link-dark' href='Employee_update.php?id=<?php echo $row3 ['Emp_Id']?>'><i class='bi bi-pencil'> Edit</i></a>   
                                                 <button type='button' class='delete_btn  btn btn-outline-dark ' data-bs-toggle='modal' id='View_btn'
                                                 data-id='{$id}'                                            
                                                 >
@@ -279,6 +267,7 @@ style=" border: 2px solid rgba( 255,255,255, .2);
 </script>
 
 <!-- This is the employee update Modal -->
+
 <div class="modal" id="Update_Employee_Modal">
   <div class="modal-dialog modal-xl">
     <div class="modal-content ">
@@ -354,7 +343,7 @@ style=" border: 2px solid rgba( 255,255,255, .2);
 
       <!-- Modal body -->
       <div class="modal-body">           
-      <form method="POST" style="width:60vw; ">
+      <form method="POST" style="width:60vw;">
                                               
                       <input type="text" class="form-control mt-3" placeholder="First name" id="FN_emp" name="FN_emp">
                       <input type="text" class="form-control mt-3" placeholder="Last name" id="LS_emp" name="LS_emp">

@@ -392,7 +392,7 @@ $result4 = $conn->query($sql4);
             </div>
 
 <!-- This is the exit modal -->
-            <div class="modal" id="myModal" data-bs-theme="dark">
+            <div class="modal" id="myModal" data-bs-theme="light">
                 <div class="modal-dialog modal-sm">
                   <div class="modal-content">
               

@@ -1,5 +1,5 @@
 <?php
-
+  include 'connect.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -83,15 +83,15 @@
     <li><a class="dropdown-item"href="Projects.php">Projects</a></li>
   </ul>
 </div></div>
-</nav><br>
-            <div id="Suppliers" class="container-fluid container-xl bg-transparent"><br>
+</nav>
+            <div id="Suppliers" class="container-fluid container-xl "><br>
                                 <div class="row " style="border: 2px solid rgba( 255,255,255, .2);
                                                           backdrop-filter: blur(20px);                
                                                           border-radius: 10px;
                                                           box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);">
                                 <div class="col mt-3">
 
-                                    <div class="input-group mb-3">
+                                    <div class="input-group mb-3" >
                                     <input type="text" class="form-control" placeholder="Search Supplier">
                                     <button class="btn btn-outline-dark" type="submit">
                                         <span class="bi bi-search"></span>
@@ -99,7 +99,7 @@
                                     </div> 
 
                                     <div class="container  p-1 my-1 ">
-                                    <button type="button" class="btn btn-outline-dark"  data-bs-toggle="offcanvas" data-bs-target="#Register_new_supplier">
+                                    <button type="button" class="btn btn-outline-dark" data-bs-toggle='modal' href="#Register_new_supplier">
                                         <span class="bi bi-person-plus"></span>
                                     </button>
                                     </div>
@@ -120,46 +120,27 @@
                                         </thead>
                                         <tbody>
 
-                                          <?php
-                                          include 'connect.php';
-                                          $sql6="SELECT * FROM supplier_details";
-                                          $result6 = mysqli_query($conn,$sql6);
-                                        
-                                        if($result6->num_rows > 0) {
-                                         while ( $row6 = $result6->fetch_assoc()) {
-                                        $ids=$row6["Supplier_Id"];
-                                        $names=$row6["Name"] ;
-                                        $lnames=$row6["Type"];
-                                        $nids=$row6["Location"];
-                                        $pnos=$row6["Phonenumber"];
-                                        $pemails=$row6["email_address"];
-                                        $proles= $row6["start_date"];
-                                        
-                                        echo "<tr>";
-                                        echo "<td>" . $ids ."</td>";
-                                        echo "<td>" . $names."</td>";
-                                        echo "<td>" . $lnames."</td>";
-                                        echo "<td>" .$nids ."</td>";
-                                        echo"<td>" . $pnos."</td>";
-                                        echo"<td>" . $pemails ."</td>";
-                                        echo"<td>" . $proles."</td>";
-                                        echo "<td>" ;
-                                          echo "<div class='dropdown'>
-                                                    <button type='button' class='btn btn-outline-dark dropdown-toggle' data-bs-toggle='dropdown'>
-                                                      Actions
-                                                    </button>
-                                                  <ul class='dropdown-menu'>                                                 
-                                                  <li><a class='dropdown-item' href='#Update_Supplier_Modal' data-bs-toggle='modal'>Edit details</a></li>
-                                                </ul>
-                                                </div>";
-                                          echo "</td>";
-                                          echo "</tr>";       
+                                            <?php
+                                            $sql6="SELECT * FROM supplier_details";
+                                            $result6 = mysqli_query($conn,$sql6);
+                                            while ( $row6 = mysqli_fetch_assoc($result6)){
+                                            ?>
+                                            <tr>
+                                              <td><?php echo $row6["Supplier_Id"]?></td>
+                                              <td><?php echo $row6["Name"] ?></td>
+                                              <td><?php echo $row6["Type"] ?></td>
+                                              <td><?php echo $row6["Location"]?></td>
+                                              <td><?php echo $row6["Phonenumber"];?></td>
+                                              <td><?php echo $row6["email_address"]?></td>
+                                              <td><?php echo $row6["start_date"]?></td>
+                                              <td>                                               
+                                                  <a class="link-dark" href="Suppliers_edit.php?id=<?php echo $row6 ["Supplier_Id"]?>"><i class="bi bi-pencil"> Edit</i></a>                                                 
+                                              </td>
+                                            </tr>
+                                            <?php
                                             }
-                                          }else{
-                                            echo "Failed to fetch data";
-                                          }
-                                          ?>
-                                        
+                                            ?>
+                                          
                                         </tbody>
                                     </table>
                                     </div>
@@ -169,50 +150,40 @@
                                 </div>                           
             </div>
 
-<!-- Offcanvas Sidebar for Supplier registration -->
+<!-- This is the supplier Register Modal -->
 
-            <div class="offcanvas offcanvas-end text-bg-dark" id="Register_new_supplier">
-              <div class="offcanvas-header">
-                <h1 class="offcanvas-title">Supplier details</h1>
-                <button type="button" class="btn-close btn-danger text-reset" data-bs-dismiss="offcanvas"></button>
-              </div>
-              <div class="offcanvas-body">
-                <form>      
-                  <input type="text" class="form-control mt-3" placeholder="Name">                  
-                  <input type="text" class="form-control mt-3" placeholder="Location">
-                  <input type="text" class="form-control mt-3" placeholder="Phone number">
-                  <input type="text" class="form-control mt-3" placeholder="Email address">
-                  <input type="date" class="form-control mt-3" id="datepicker" placeholder="contract start date"> 
-                <button class="btn btn-secondary mt-3" type="button">Submit</button>
-                </form>
-              </div>
-            </div>
-
-<!-- This is the supplier update Modal -->
-
-<div class="modal" id="Update_Supplier_Modal">
+<div class="modal" id="Register_new_supplier">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Update Supplier Details</h4>
+        <h4 class="modal-title">Create New supplier account</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
       <!-- Modal body -->
-      <div class="modal-body">
-      
+      <form>
+      <div class="modal-body">  
+                  <input type="text" class="form-control mt-3" placeholder="Name" required>                  
+                  <input type="text" class="form-control mt-3" placeholder="Location" required>
+                  <input type="text" class="form-control mt-3" placeholder="Type" required> 
+                  <input type="text" class="form-control mt-3" placeholder="Phone number" required>
+                  <input type="text" class="form-control mt-3" placeholder="Email address">
+                  <input type="date" class="form-control mt-3" id="datepicker" placeholder="contract start date">                   
       </div>
-
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="submit" class="btn btn-dark" >update</button>
+      <button class="btn btn-outline-dark mt-3" type="button">Submit</button>
       </div>
+      </form>
 
     </div>
   </div>
+
 </div>
+
+
   </main>
   <footer>
  

@@ -47,25 +47,50 @@ $id= $_GET["id"];
             <form action="" method="post">
                 <!-- `Supplier_Id`, `Name`, `Type`, `Location`, `Phonenumber`, `email_address`, `start_date`  -->
 
-                  <input type="text" class="form-control mt-3" placeholder="Name" value="<?php echo $row['Name']?>" name="">                  
-                  <input type="text" class="form-control mt-3" placeholder="Location" value="<?php echo $row['Location'] ?>" name="">
-                  <input type="text" class="form-control mt-3" placeholder="Phone number" value="<?php echo $row['Phonenumber'] ?>" name="">
-                  <input type="text" class="form-control mt-3" placeholder="Email address" value="<?php echo $row['email_address'] ?>" name="">
+                  <input type="text" class="form-control mt-3" placeholder="Name" value="<?php echo $row['Name']?>" name="Sname">                  
+                  <input type="text" class="form-control mt-3" placeholder="Location" value="<?php echo $row['Location'] ?>" name="Slocation">
+                  <input type="text" class="form-control mt-3" placeholder="Phone number" value="<?php echo $row['Phonenumber'] ?>" name="Sphone">
+                  <input type="text" class="form-control mt-3" placeholder="Email address" value="<?php echo $row['email_address'] ?>" name="Semail">
                   <input type="date" class="form-control mt-3" id="datepicker" placeholder="contract start date" 
                           value="<?php $date=$row['start_date']; 
                                        $date = date('Y-m-d', strtotime($date));
-                                       echo htmlspecialchars($date);?>"><br>
+                                       echo htmlspecialchars($date);?>" name="Sdate" id="Sdate"><br>
                   <div class="form-group mb-3">
                     <label>Supplier type:</label>
                     &nbsp;
-                    <input type="radio" class="form-check-input" name="gender" id="male" value="male" <?php echo ($row["Type"] == 'Company') ? "checked" : ""; ?>>
+                    <input type="radio" class="form-check-input" name="Stype" id="male" value="Company" <?php echo ($row["Type"] == 'Company') ? "checked" : ""; ?>>
                     <label for="male" class="form-input-label">Company</label>
                     &nbsp;
-                    <input type="radio" class="form-check-input" name="gender" id="female" value="female" <?php echo ($row["Type"] == 'Individual') ? "checked" : ""; ?>>
+                    <input type="radio" class="form-check-input" name="Stype" id="female" value="Individual" <?php echo ($row["Type"] == 'Individual') ? "checked" : ""; ?>>
                     <label for="female" class="form-input-label">Individual</label>
                   </div>
-                  <button class="btn btn-outline-dark mt-3" type="button">Submit</button>
+                  <button class="btn btn-outline-dark mt-3" type="submit" name="submit">Update</button>
             </form>
+
+    <?php 
+      if(isset($_POST["submit"])){
+        $name= $_POST['Sname'];
+        $location= $_POST['Slocation'];
+        $PhoneNo= $_POST['Sphone'];
+        $email= $_POST['Semail'];
+        $date= $_POST['Sdate'];
+        $type= $_POST['Stype']; 
+       
+       $sql="UPDATE supplier_details SET `Name`='$name', `Type`='$type', `Location`='$location',
+                    `Phonenumber`='$PhoneNo', `email_address`='$email', `start_date`='$date' WHERE 'Supplier_Id'=$id ";
+       
+        $result = mysqli_query($conn, $sql);
+       
+         if ($result) {
+           header("Location: Suppliers.php?msg=data updated successfully");
+         } else {
+           echo  '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    ' ."Failed: " . mysqli_error($conn). '
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>';
+         }
+       }
+    ?>
         </div> 
     </div>
     

@@ -15,11 +15,12 @@ if (isset($_POST['Submit_emp']) ){
   $emprole = $_POST['role'];
   $empdate = $_POST['date_emp'];
   $empgender= $_POST['optradio'];
+  $empimage= $_POST['image'];
 
 
   $sql4 =   "INSERT INTO employee_details (Emp_Id,Emp_Firstname,Emp_lastname,Emp_national_Id, Emp_Phonenumber,
-             Emp_emailAddress,Emp_role,Emp_dateofbirth,Emp_gender) 
-             VALUES ('$empid', '$empname','$emplname','$empidno','$empphone','$empemail','$emprole',' $empdate ',' $empgender')";
+             Emp_emailAddress,Emp_role,Emp_dateofbirth,Emp_gender,Emp_image) 
+             VALUES ('$empid', '$empname','$emplname','$empidno','$empphone','$empemail','$emprole',' $empdate ',' $empgender','$empimage')";
 
     $default_status="Pending";
     $sql5= "INSERT INTO users (Email,User_Role, Account_status)
@@ -51,12 +52,7 @@ if (isset($_POST['Submit_emp']) ){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employees</title>
-    <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-            crossorigin="anonymous"
-        >
-   </script>
+
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -77,19 +73,35 @@ if (isset($_POST['Submit_emp']) ){
     success: function (response) {
       
     }
-  });      
+  });     
 </script>
-<!-- Bootstrap JavaScript Libraries -->
+<script>
+
+$(document).ready(function() {
+            $("#Search_btn").click(function() {
+                var query = $("#Search_txt").val();
+                $.ajax({
+                    url: "Employee_search.php",
+                    type: "POST",
+                    data: { query: query },
+                    success: function(response) {
+                        $("#Employee_table tbody").html(response);
+                    }
+                });
+            });
+        });
+</script>
 <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-            crossorigin="anonymous"
-        ></script>
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-            crossorigin="anonymous"
-        ></script>
+              src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+              integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+              crossorigin="anonymous"
+          ></script>
+          <script
+              src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+              integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+              crossorigin="anonymous"
+          ></script>
+
         <style>
           footer {
     box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.5);   
@@ -106,7 +118,8 @@ if (isset($_POST['Submit_emp']) ){
 </head>
 <body>
 <header>
-    <!-- This section contains the logo and admin heading -->
+
+<!-- This section contains the logo and admin heading -->
     <nav class="navbar text-bg-dark">
                 <div class="container-fluid">
 
@@ -164,7 +177,7 @@ style=" border: 2px solid rgba( 255,255,255, .2);
                     <div class="col">
                       <div class="container-responsive mt-3">
                         <div class="input-group mb-3">
-                          <input type="text" class="form-control" placeholder="Search Employee" id="Search_txt" name="Search_txt">
+                          <input type="text" class="form-control" placeholder="Search Employee by firstname" id="Search_txt" name="Search_txt">
                           <button class="btn btn-outline-dark" type="submit" id="Search_btn" name="Search_btn">
                             <span class="bi bi-search"></span>
                           </button><br>
@@ -193,53 +206,38 @@ style=" border: 2px solid rgba( 255,255,255, .2);
                               </tr>
                             </thead>
                             <tbody>
-                            <?php
-                                    if ($result3->num_rows > 0) {
-                                    while ($row3 = $result3->fetch_assoc()) {
-                                       ;
-                                        $name=$row3["Emp_Firstname"] ;
-                                        $lname=$row3["Emp_lastname"];
-                                        $nid=$row3["Emp_national_Id"];
-                                        $pno=$row3["Emp_Phonenumber"];
-                                        $pemail=$row3["Emp_emailAddress"];
-                                        $prole= $row3["Emp_role"];
-                                        $dofb=$row3["Emp_dateofbirth"];
-                                        $gender= $row3["Emp_gender"];
-                                        $image=$row3["Emp_image"];
 
-                                        $img_data = base64_encode($image);
-                                        $img_src = "data:image/jpeg;base64," . $img_data;
-                                    
-                                      echo "<tr>";
-                                      echo "<td> <img src='$img_src' style='width:30px; length: 30px;' class='rounded-pill'></td>";
-                                      echo "<td> {$row3 ['Emp_Id']}</td>";
-                                      echo "<td>{$name}</td>";
-                                      echo "<td>{$lname}</td>";
-                                      echo "<td>{$nid}</td>";
-                                      echo"<td>{$pno}</td>";
-                                      echo"<td>{$pemail }</td>";
-                                      echo"<td>{$prole}</td>";
-                                      echo"<td>{$dofb }</td>";
-                                      echo"<td>{$gender }</td>";
-                                      echo "<td>" ;
-                                      echo "   <a class='link-dark' href='Employee_update.php?id=<?php echo $row3 ['Emp_Id']?>'><i class='bi bi-pencil'> Edit</i></a>   
-                                                <button type='button' class='delete_btn  btn btn-outline-dark ' data-bs-toggle='modal' id='View_btn'
-                                                data-id='{$id}'                                            
-                                                >
-                                                <i class='bi bi-trash'></i>
-                                                </button>                                   
-                                            ";
-                                      echo "</td>";
-
-                                      echo "</tr>";                                               
-                                      }
-                                
-                                }else{
-                                    echo "<tr><td colspan='3'>No data found</td></tr>";
-                                }
-                                ?>
-                            
-                            
+          <?php 
+          $sql3 = "SELECT * FROM employee_details";
+          $result3 = $conn->query($sql3);
+          while( $row3=mysqli_fetch_assoc($result3)){          
+          ?>
+          <tr>
+            <td><?php 
+                  $image=$row3["Emp_image"];
+                  $img_data = base64_encode($image);
+                  $img_src = "data:image/jpeg;base64," . $img_data;
+                  echo "<img src='$img_src' style='width:30px; length: 30px;' class='rounded-pill'";
+            ?></td>
+            <td><?php echo $row3["Emp_Id"]?></td>
+            <td><?php echo $row3["Emp_Firstname"]?></td>
+            <td><?php echo $row3["Emp_lastname"]?></td>
+            <td><?php echo $row3["Emp_national_Id"]?></td>
+            <td><?php echo $row3["Emp_Phonenumber"]?></td>
+            <td><?php echo $row3["Emp_emailAddress"]?></td>
+            <td><?php echo $row3["Emp_role"]?></td>
+            <td><?php echo $row3["Emp_dateofbirth"]?></td>
+            <td><?php echo $row3["Emp_gender"]?></td>
+            <td>
+            <a class="link-dark" href="Employee_update.php?id=<?php echo $row3["Emp_Id"]?>"><i class="bi bi-pencil"> Edit</i></a>
+            </td>
+            
+          </tr>
+   <?php       
+   }
+   ?>
+          
+          
                               </tbody>
                           </table>
                         
@@ -248,87 +246,7 @@ style=" border: 2px solid rgba( 255,255,255, .2);
                       </div>                     
                     </div>               
 </div>
-<script>
 
-  $(document).ready(function() {
-            $("#Search_btn").click(function() {
-                var query = $("#Search_txt").val();
-                $.ajax({
-                    url: "/Exen_Limited/Functions/Employees_functions/Employee_search.php",
-                    type: "POST",
-                    data: { query: query },
-                    success: function(response) {
-                        $("#Employee_table tbody").html(response);
-                    }
-                });
-            });
-        });
-
-</script>
-
-<!-- This is the employee update Modal -->
-
-<div class="modal" id="Update_Employee_Modal">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content ">
-
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">Update Employee details</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <!-- Modal body -->
-      <div class="modal-body">
-      <form id="updateForm">      
-                     <input type="hidden" class="form-control mt-3" placeholder="Customer id" id="edit-id" >
-                     <input type="text" class="form-control mt-3" readonly class="form-control-plaintext" placeholder="Email address" id="edit-email">
-                      <input type="text" class="form-control mt-3" placeholder="First name" id="edit-fname">
-                      <input type="text" class="form-control mt-3" placeholder="Last name" id="edit-lname">
-                      <input type="text" class="form-control mt-3" placeholder="National id number" id="edit-national-id">
-                      <input type="text" class="form-control mt-3" placeholder="Phone number" id="edit-phone-no">
-                      <input type="text" class="form-control mt-3" placeholder="Date of hire"  id="edit-date"> 
-                      <input type="text" class="form-control mt-3" placeholder="Role"  id="edit-role">
-                      <input type="text" class="form-control mt-3" placeholder="Gender"  id="edit-gender">
-            
-      </div>  
-                       
-                    
-   <!-- Modal footer -->
-                    <div class="modal-footer">
-                    <button class="btn btn-outline-dark mt-2" type="button" name="update_emp">Submit</button>
-                    </div>
-                    </form> 
-                    </div></div>
-  </div>
-  <!--  -->
-
-  <script>
-    var btns = document.getElementsByClassName("Update_btn","View_btn");
-    var modal = document.getElementById('Update_Employee_Modal','View_Employee_Modal');
-    var span = document.getElementsByClassName("close")[0];
-    for (var i = 0; i < btns.length; i++) {
-        btns[i].onclick = function () {
-          modal.style.display = "block";            
-            document.getElementById('edit-id').value = this.getAttribute('data-id');
-            document.getElementById('edit-fname').value = this.getAttribute('data-fname');
-            document.getElementById('edit-lname').value = this.getAttribute('data-lname');
-            document.getElementById('edit-national-id').value = this.getAttribute('data-nid');
-            document.getElementById('edit-phone-no').value = this.getAttribute('data-pid');
-            document.getElementById('edit-email').value = this.getAttribute('data-email');
-            document.getElementById('edit-date').value = this.getAttribute('data-role');
-            document.getElementById('edit-role').value = this.getAttribute('data-date');
-            document.getElementById('edit-gender').value = this.getAttribute('data-gender');
-        }
-        
-    }
-
-  </script>
-
-<script>
-    
-
-  </script>
 
 <!-- This is the employee registration Modal -->
   <div class="modal" id="Register_Employee_Modal">
@@ -369,17 +287,14 @@ style=" border: 2px solid rgba( 255,255,255, .2);
                     <button class="btn btn-outline-dark mt-2" type="submit" name="Submit_emp">Submit</button>                    
                     </div>
                        
-                    </form>  
-       
+                    </form>        
                     
                     </div></div>
   </div>
-
-
-
-
 </div>
 </main><br><br>
+
+
 <footer>
 <div class="container-fluid ">
 

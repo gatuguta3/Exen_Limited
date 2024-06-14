@@ -84,6 +84,16 @@
   </ul>
 </div></div>
 </nav>
+<div class="container">
+    <?php
+    if (isset($_GET["msg"])) {
+      $msg = $_GET["msg"];
+      echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+      ' . $msg . '
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>';
+    }
+    ?>
             <div id="Suppliers" class="container-fluid container-xl "><br>
                                 <div class="row " style="border: 2px solid rgba( 255,255,255, .2);
                                                           backdrop-filter: blur(20px);                

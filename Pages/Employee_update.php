@@ -67,10 +67,11 @@ $id= $_GET["id"];
                             <input type="radio" class="form-check-input" name="gender"  value="Female" <?php echo ($row["Emp_gender"] == 'Female') ? "checked" : ""; ?>>
                             <label for="female" class="form-input-label">Female</label>
                       </div>
-                      <button class="btn btn-outline-dark mt-2" type="submit" name="update_emp">Update</button>                      
+                      <button class="btn btn-outline-dark mt-2" type="submit" name="submit" >Update</button>                      
                     </form>
                     <?php 
                     if(isset($_POST['submit'])){
+                                $Eid= $_POST['edit-id'];
                                 $email= $_POST['edit-email'];
                                 $fname= $_POST['edit-fname'];
                                 $lname= $_POST['edit-lname'];
@@ -80,12 +81,23 @@ $id= $_GET["id"];
                                 $role= $_POST['edit-role'];
                                 $gender= $_POST['gender'];
 
-                        $sql=" UPDATE `employee_details` SET ,`Emp_Firstname`='$fname'
+                        $sql=" UPDATE employee_details SET ,`Emp_Firstname`='$fname'
                                     ,`Emp_lastname`='$lname',`Emp_national_Id`='$Nid'
                                     ,`Emp_Phonenumber`='$PhoneNo'
                                     ,`Emp_emailAddress`='$email',`Emp_role`='$role'
                                     ,`Emp_dateofbirth`='$date'
-                                    ,`Emp_gender`='$role',`Emp_image`='[value-10]' WHERE `Emp_Id`='[value-1]'";
+                                    ,`Emp_gender`='$gender' WHERE Emp_Id = '$Eid'";
+
+                        $result = mysqli_query($conn, $sql);
+                            
+                        if ($result) {
+                        header("Location: Employees.php");
+                        } else {
+                        echo  '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                ' ."Failed: " . mysqli_error($conn). '
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>';
+                        }
                                 }
                     ?>
 

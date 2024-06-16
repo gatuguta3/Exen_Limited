@@ -23,10 +23,19 @@
               crossorigin="anonymous"
     />
     <script>
-      $(document).ready(function(){
-                  // jQuery methods go here...
-
-      });
+      $(document).ready(function() {
+            $("#Search_btn").click(function() {
+                var query = $("#Search_txt").val();
+                $.ajax({
+                    url: "Supplier_search.php",
+                    type: "POST",
+                    data: { query: query },
+                    success: function(response) {
+                        $("#supplier_table tbody").html(response);
+                    }
+                });
+            });
+        });
 
   </script>
   <!-- Bootstrap JavaScript Libraries -->
@@ -102,8 +111,8 @@
                                 <div class="col mt-3">
 
                                     <div class="input-group mb-3" >
-                                    <input type="text" class="form-control" placeholder="Search Supplier">
-                                    <button class="btn btn-outline-dark" type="submit">
+                                    <input type="text" class="form-control" placeholder="Search Supplier" id="Search_txt" name="Search_txt">
+                                    <button class="btn btn-outline-dark" type="submit" id="Search_btn" name="Search_btn">
                                         <span class="bi bi-search"></span>
                                     </button>
                                     </div> 
@@ -115,7 +124,7 @@
                                     </div>
 
                                     <div class="container-responsive mt-3">                                            
-                                    <table class="table table-striped">
+                                    <table class="table table-striped" id="supplier_table">
                                         <thead class=" table-dark">
                                         <tr>
                                             <th>Supplier Id</th>
@@ -131,7 +140,7 @@
                                         <tbody>
 
                                             <?php
-                                            $sql6="SELECT * FROM supplier_details";
+                                            $sql6="SELECT * FROM suppliers";
                                             $result6 = mysqli_query($conn,$sql6);
                                             while ( $row6 = mysqli_fetch_assoc($result6)){
                                             ?>

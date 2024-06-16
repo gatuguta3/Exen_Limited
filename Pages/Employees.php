@@ -14,13 +14,16 @@ if (isset($_POST['Submit_emp']) ){
   $empemail = $_POST['EM_emp'];
   $emprole = $_POST['role'];
   $empdate = $_POST['date_emp'];
-  $empgender= $_POST['optradio'];
-  $empimage= $_POST['image'];
+  $empgender= $_POST['optradio']; 
+  $image = $_FILES['image']['tmp_name'];
+  $imgContent = addslashes(file_get_contents($image));
+
+   
 
 
   $sql4 =   "INSERT INTO employee_details (Emp_Id,Emp_Firstname,Emp_lastname,Emp_national_Id, Emp_Phonenumber,
              Emp_emailAddress,Emp_role,Emp_dateofbirth,Emp_gender,Emp_image) 
-             VALUES ('$empid', '$empname','$emplname','$empidno','$empphone','$empemail','$emprole',' $empdate ',' $empgender','$empimage')";
+             VALUES ('$empid', '$empname','$emplname','$empidno','$empphone','$empemail','$emprole',' $empdate ',' $empgender','$imgContent')";
 
     $default_status="Pending";
     $sql5= "INSERT INTO users (Email,User_Role, Account_status)
@@ -62,7 +65,11 @@ if (isset($_POST['Submit_emp']) ){
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
             crossorigin="anonymous"
    />
-   <script>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Datatables CSS  -->
+  <link href="https://cdn.datatables.net/v/bs5/dt-1.13.4/datatables.min.css" rel="stylesheet" />
+  
+  <script>
    $(document).ready(function(){
      // jQuery methods go here...
      $.ajax({
@@ -215,9 +222,8 @@ style=" border: 2px solid rgba( 255,255,255, .2);
           <tr>
             <td><?php 
                   $image=$row3["Emp_image"];
-                  $img_data = base64_encode($image);
-                  $img_src = "data:image/jpeg;base64," . $img_data;
-                  echo "<img src='$img_src' style='width:30px; length: 30px;' class='rounded-pill'";
+                  $img_data = base64_encode($image);                 
+                  echo "<img src='$img_data' style='width:30px;height:30px;border:2px solid gray;border-radius:8px;object-fit:cover'";
             ?></td>
             <td><?php echo $row3["Emp_Id"]?></td>
             <td><?php echo $row3["Emp_Firstname"]?></td>
@@ -257,7 +263,7 @@ style=" border: 2px solid rgba( 255,255,255, .2);
       <div class="modal-header">
         <h4 class="modal-title">Register new Employee </h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+      </div>    
 
       <!-- Modal body -->
       <div class="modal-body">           

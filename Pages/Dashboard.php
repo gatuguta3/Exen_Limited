@@ -25,7 +25,7 @@ $rowCount1 = 0;
 } 
 
 
-$sql2 = "SELECT COUNT(*) AS row_count FROM supplier_details";
+$sql2 = "SELECT COUNT(*) AS row_count FROM suppliers";
     $result2 = $conn->query($sql2);
 
 if ($result2->num_rows > 0) {
@@ -85,8 +85,8 @@ $result4 = $conn->query($sql4);
                 $(C_cust_btn).click(function(){
                     window.location.href = "Customers.php";
                 });    
-                $(C_pcust_btn).click(function(){
-                    window.location.href = "Customers.php";
+                $(C_sup_btn).click(function(){
+                    window.location.href = "Suppliers.php";
                 });    
                 $(C_emp_btn).click(function(){
                     window.location.href = "Employees.php";
@@ -170,7 +170,7 @@ $result4 = $conn->query($sql4);
                 <li><a class="dropdown-item"  href="Suppliers.php">Suppliers</a></li>
                 <li><hr class="dropdown-divider"></hr></li>
                 <li><a class="dropdown-item"  href="Products.php">Products</a></li>
-                <li><a class="dropdown-item" href="Supplies.php">Supplies</a></li>
+                <li><a class="dropdown-item" href="Supplies.php">Supplies</a></li>                
                 <li><hr class="dropdown-divider"></hr></li>
                 <li><a class="dropdown-item"  href="Transactions.php">Transactions</a></li>
                 <li><a class="dropdown-item" href="Deliveries.php">Deliveries</a></li>
@@ -178,6 +178,14 @@ $result4 = $conn->query($sql4);
                 <li><a class="dropdown-item" href="Services.php">Services</a></li>
                 <li><a class="dropdown-item"href="Feedback.php">Feedback</a></li>
                 <li><hr class="dropdown-divider"></hr></li>
+              <!--    <div class="dropdown dropstart ">                                                         
+                <button type="button" class="btn btn-outline-dark dropdown-toggle" id="Settings_btn" data-bs-toggle="dropdown"><i class="bi bi-gear"></i></button>
+                <ul class="dropdown-menu">
+                <li><a class="dropdown-item"href="Feedback.php">My Account</a></li>
+                <li><a class="dropdown-item"href="Feedback.php">User Accounts</a></li> 
+                </ul>
+                </div>-->             
+            
                 <li><a class="dropdown-item"href="Projects.php">Projects</a></li>
                 <li><hr class="dropdown-divider"></hr></li>
                 <li class="nav-item ms-auto">
@@ -211,7 +219,7 @@ $result4 = $conn->query($sql4);
                                                 <div class="card-body">
                                                 <h4 class="card-title">Suppliers</h4>
                                                 <p class="card-text"> <?php echo $rowCount2; ?> </p>
-                                                <button type="button" class="btn btn-outline-dark" id="C_pcust_btn"><i class="bi bi-eye"></i></button>
+                                                <button type="button" class="btn btn-outline-dark" id="C_sup_btn"><i class="bi bi-eye"></i></button>
                                                 </div>                                            
                                             </div>
                                             </div>
@@ -242,46 +250,44 @@ $result4 = $conn->query($sql4);
                                          <div class="container mt-5   p-3 my-3 text-white">
                                           <div id="demo" class="carousel slide " data-bs-ride="carousel">
 
-                                            <!-- Indicators/dots -->
-                                            <div class="carousel-indicators">
-                                              <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
-                                              <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
-                                              <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
-                                            </div>
-                                            
-                                            <!-- The slideshow/carousel -->
-                                            <div class="carousel-inner">
-                                              <div class="carousel-item active ">
-                                                <img src="E1.png" alt="Los Angeles" class="d-block" style="width:100%">
-                                                <div class="carousel-caption">
-                                                  <h3>Nyeri town</h3>
-                                                  <p>The best </p>
-                                                </div>
-                                              </div>
-                                              <div class="carousel-item ">
-                                                <img src="E1.png" alt="Chicago" class="d-block" style="width:100%">
-                                                <div class="carousel-caption">
-                                                  <h3>Kisumu</h3>
-                                                  <p>Thank you,Kisumu !</p>
-                                                </div> 
-                                              </div>
-                                              <div class="carousel-item ">
-                                                <img src="E1.png" alt="New York" class="d-block" style="width:100%">
-                                                <div class="carousel-caption">
-                                                  <h3>Mombasa</h3>
-                                                  <p>We love the Big Apple!</p>
-                                                </div>  
-                                              </div>
-                                            </div>
-                                            
-                                            <!-- Left and right controls/icons -->
-                                            <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
-                                              <span class="carousel-control-prev-icon"></span>
-                                            </button>
-                                            <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
-                                              <span class="carousel-control-next-icon"></span>
-                                            </button>
-                                          </div>
+                                          <?php 
+                                              $sql="SELECT * FROM projects";
+                                              $result= mysqli_query($conn,$sql);
+                                              if($result->num_rows >0){
+                                                while( $row = mysqli_fetch_assoc($result)){
+                                                  ?>
+                                                      <div class="carousel-indicators">
+                                                        <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+                                                      </div>
+                                                      <div class="carousel-item ">
+                                                        <img src="<?php echo base64_encode($row["Head_Image"])?>" alt="Chicago" class="d-block" style="width:100%">
+                                                        <div class="carousel-caption">
+                                                          <h3><?php echo $row["Location"]?></h3>                                                  
+                                                        </div> 
+                                                      </div>
+                                                      <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+                                                          <span class="carousel-control-prev-icon"></span>
+                                                      </button>
+                                                      <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+                                                          <span class="carousel-control-next-icon"></span>
+                                                      </button>
+
+
+
+                                                  <?php
+                                                }
+                                              }else{
+                                                echo "No proects are yet to be done";
+                                              }
+
+
+                                          ?>
+
+                                                                                     </div>
+
+                            <!-- ========== end of carousel ========== -->
+                            
+                                          
                                             </div>
                                      </div>
                         </div><br><br>

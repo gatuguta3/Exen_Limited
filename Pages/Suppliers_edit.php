@@ -40,13 +40,13 @@ $id= $_GET["id"];
                                                        
         <div class="card-body">
                 <?php                                          
-                    $sql6="SELECT * FROM supplier_details WHERE Supplier_Id = '$id'";
+                    $sql6="SELECT * FROM suppliers WHERE Supplier_Id = '$id'";
                     $result6 = mysqli_query($conn,$sql6); 
                     $row = mysqli_fetch_assoc($result6);
                 ?>
             <form action="" method="post">
                 <!-- `Supplier_Id`, `Name`, `Type`, `Location`, `Phonenumber`, `email_address`, `start_date`  -->
-
+                  <input type="hidden" class="form-control mt-3" placeholder="Name" value="<?php echo $row['Supplier_Id']?>" name="Sid">                  
                   <input type="text" class="form-control mt-3" placeholder="Name" value="<?php echo $row['Name']?>" name="Sname">                  
                   <input type="text" class="form-control mt-3" placeholder="Location" value="<?php echo $row['Location'] ?>" name="Slocation">
                   <input type="text" class="form-control mt-3" placeholder="Phone number" value="<?php echo $row['Phonenumber'] ?>" name="Sphone">
@@ -65,10 +65,11 @@ $id= $_GET["id"];
                     <label for="female" class="form-input-label">Individual</label>
                   </div>
                   <button class="btn btn-outline-dark mt-3" type="submit" name="submit">Update</button>
-            </form>
+            </form><br>
 
     <?php 
       if(isset($_POST["submit"])){
+        $Sid= $_POST['Sid'];
         $name= $_POST['Sname'];
         $location= $_POST['Slocation'];
         $PhoneNo= $_POST['Sphone'];
@@ -76,8 +77,8 @@ $id= $_GET["id"];
         $date= $_POST['Sdate'];
         $type= $_POST['Stype']; 
        
-       $sql="UPDATE supplier_details SET `Name`='$name', `Type`='$type', `Location`='$location',
-                    `Phonenumber`='$PhoneNo', `email_address`='$email', `start_date`='$date' WHERE 'Supplier_Id'=$id ";
+       $sql="UPDATE suppliers SET `Name`='$name', `Type`='$type', `Location`='$location',
+                    `Phonenumber`='$PhoneNo', `email_address`='$email', `start_date`='$date' WHERE Supplier_Id = '$Sid' ";
        
         $result = mysqli_query($conn, $sql);
        

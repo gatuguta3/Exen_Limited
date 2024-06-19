@@ -26,11 +26,19 @@ require_once("connect.php");
             crossorigin="anonymous"
    />
    <script>
-    $(document).ready(function(){
-                // jQuery methods go here...
-    
-
-              });
+           $(document).ready(function() {
+            $("#Search_btn").click(function() {
+                var query = $("#Search_txt").val();
+                $.ajax({
+                    url: "Services_search.php",
+                    type: "POST",
+                    data: { query: query },
+                    success: function(response) {
+                        $("#services_table tbody").html(response);
+                    }
+                });
+            });
+        });
 
 </script>
 <!-- Bootstrap JavaScript Libraries -->
@@ -86,9 +94,12 @@ require_once("connect.php");
 </div></div>
 </nav><br>
 
-<div id="Deliveries" class="container-fluid d-flex container-xl"><br>
+<div id="Deliveries" class="container-fluid d-flex container-xl" style="border: 2px solid rgba( 255,255,255, .2);
+                backdrop-filter: blur(20px);                
+                border-radius: 10px;
+                box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);"><br>
                    
-                      <div class="col">
+                      <div class="col"><br>
                         <div class="input-group mb-3">
                           <input type="text" class="form-control" placeholder="Search delivery by location" id="Search_txt" name="Search_txt">
                           <button class="btn btn-outline-dark" type="submit" id="Search_btn" name="Search_btn">
@@ -114,8 +125,36 @@ require_once("connect.php");
                               </tr>
                             </thead>
                             <tbody>
+                              
+                                <?php 
+                                  //`Serv_id`, `Type`, `Date_Booked`,
+                                  // `Date_Completed`, `Cust_Id`, `Description`,
+                                  // `Description_Image`, `Status`, `Emp_Id`, `Start_Date`
+                                  
+                                  $sql="SELECT * FROM services";
+                                  $result= mysqli_query($conn,$sql);
+                                  if($result ->num_rows >0){
+                                    while( $rows = mysqli_fetch_assoc($result)){
+                                      ?>
+                                      <tr>
+                                        <td><?php echo $row["Serv_id"] ?></td>
+                                        <td><?php echo $row["Type"] ?></td>
+                                        <td><?php echo $row["Date_Booked"] ?></td>
+                                        <td><?php echo $row["Date_Completed"] ?></td>
+                                        <td><?php echo $row["Cust_Id"] ?></td>
+                                        <td><?php echo $row["Description"] ?></td>
+                                        <td><?php echo $row["Description_Image"] ?></td>
+                                        <td><?php echo $row["Status"] ?></td>
+                                        <td><?php echo $row["Emp_Id"] ?></td>
+                                        <td><?php echo $row["Start_Date"] ?></td>
+                                      </tr>
+                                      <?php
+                                    }
 
-                            
+                                  }else{
+                                    echo "<tr><td colspan='10'>No results found</td></tr>";
+                                  }
+                                ?>                           
                             
                               </tbody>
                           </table>

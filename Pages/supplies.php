@@ -26,10 +26,19 @@ require_once("connect.php");
             crossorigin="anonymous"
    />
    <script>
-    $(document).ready(function(){
-                // jQuery methods go here...
-
-    });
+        $(document).ready(function() {
+            $("#Search_btn").click(function() {
+                var query = $("#Search_txt").val();
+                $.ajax({
+                    url: "Supplies_search.php",
+                    type: "POST",
+                    data: { query: query },
+                    success: function(response) {
+                        $("#supply_table tbody").html(response);
+                    }
+                });
+            });
+        });
 
 </script>
 <!-- Bootstrap JavaScript Libraries -->
@@ -83,7 +92,7 @@ require_once("connect.php");
     <li><a class="dropdown-item"href="Projects.php">Projects</a></li>
   </ul>
 </div></div>
-</nav><br>
+</nav>
 
 
 <div id="Supplies" class="container-fluid container-xl bg-transparent"><br>
@@ -94,14 +103,14 @@ require_once("connect.php");
                                 <div class="col mt-4">
 
                                     <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder="Search Supply">
-                                    <button class="btn btn-outline-dark" type="submit">
+                                    <input type="text" class="form-control" placeholder="Search Supply" id="Search_txt" name="Search_txt">
+                                    <button class="btn btn-outline-dark" type="submit" id="Search_btn" name="Search_btn">
                                         <span class="bi bi-search"></span>
                                     </button>
                                     </div> 
 
                                     <div class="container-responsive mt-3">                                            
-                                    <table class="table table-striped">
+                                    <table class="table table-striped" id="supply_table">
                                         <thead class=" table-dark">
                                         <tr>
                                             <th>Supply Image</th> 
@@ -114,6 +123,30 @@ require_once("connect.php");
                                         </tr>
                                         </thead>
                                         <tbody>
+                                            <?php 
+                                            $sql="SELECT * FROM supplies";
+                                            //`Supply_Id`, `Name`, `Description`,
+                                            // `Quantity`, `Price`, `Supplier_Id`, `Image`
+                                            $result = mysqli_query($conn,$sql);
+                                            while ( $row = mysqli_fetch_assoc($result)){
+                                            ?>
+                                            <tr>
+                                             <td><?php $img_data = base64_encode($row["Image"]);
+                                                        $img_src = "data:image/jpeg;base64," . $img_data;
+                                                        echo" <img src='$img_src' style='width:30px;height:30px;border:2px solid gray;border-radius:8px;object-fit:cover'>"; ?></td>
+                                              <td><?php echo $row["Supply_Id"]?></td>
+                                              <td><?php echo $row["Name"] ?></td>
+                                              <td><?php echo $row["Description"] ?></td>
+                                              <td><?php echo $row["Quantity"]?></td>
+                                              <td><?php echo $row["Price"];?></td>
+                                              <td><?php echo $row["Supplier_Id"]?></td>
+                                             
+                                             
+                                            </tr>
+                                            <?php
+                                            }
+                                            
+                                            ?>
 
                                         </tbody> </table>
                                     </div>

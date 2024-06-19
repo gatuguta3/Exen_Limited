@@ -26,10 +26,19 @@ require_once("connect.php");
             crossorigin="anonymous"
    />
    <script>
-    $(document).ready(function(){
-                // jQuery methods go here...
-
-              });
+           $(document).ready(function() {
+            $("#Search_btn").click(function() {
+                var query = $("#Search_txt").val();
+                $.ajax({
+                    url: "Deliveries_search.php",
+                    type: "POST",
+                    data: { query: query },
+                    success: function(response) {
+                        $("#deliveries_table tbody").html(response);
+                    }
+                });
+            });
+        });
 
 </script>
 <!-- Bootstrap JavaScript Libraries -->
@@ -84,9 +93,12 @@ require_once("connect.php");
   </ul>
 </div></div>
 </nav><br>
-<div id="Deliveries" class="container-fluid d-flex container-xl"><br>
+<div id="Deliveries" class="container-fluid d-flex container-xl" style="border: 2px solid rgba( 255,255,255, .2);
+                backdrop-filter: blur(20px);                
+                border-radius: 10px;
+                box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);"><br>
                    
-                      <div class="col">
+                      <div class="col"><br>
                         <div class="input-group mb-3">
                           <input type="text" class="form-control" placeholder="Search delivery by location" id="Search_txt" name="Search_txt">
                           <button class="btn btn-outline-dark" type="submit" id="Search_btn" name="Search_btn">
@@ -95,25 +107,53 @@ require_once("connect.php");
                         </div> 
                         <div class="container-responsive ">
                                   
-                          <table class="table " id="Employee_table">
+                          <table class="table " id="deliveries_table">
                             <thead class="table-dark">
-                              <tr>
-                                <th>Image</th>
+                              <tr>                                                       
+                    
+                                
+                                <th>Delivery Id</th>
                                 <th>Employee Id</th>
-                                <th>First name</th>
-                                <th>Last name</th>
-                                <th>Nationa Id no</th>
-                                <th>Phone number</th>
-                                <th>Email address</th>
-                                <th>Role</th>
-                                <th>Date of Hire</th>
-                                <th>Gender</th>
-                                <th>Actions</th>
+                                <th>Date of delivery</th>
+                                <th>Cost of delivery</th>
+                                <th>Order Id</th>
+                                <th>Vehicle plate no</th>
+                                <th>Delivery Location</th>
+                                <th>Customer Id</th>
+                                <th>Status</th>                                
                               </tr>
                             </thead>
                             <tbody>
+                                  <!-- 
+                                  `Delivery_Id`, `Emp_Id`, `Delivery_Date`,
+                                   `Delivery_Cost`, `Order_Id`, `Vehicle_Id`,
+                                    `Delivery_Location`, `Cust_Id`, `Status`
+                                -->  
+                              <?php 
+                                $sql="SELECT * FROM deliveries";
+                                $result = mysqli_query($conn,$sql);
+                                if($result -> num_rows >0){
+                                  while( $row = mysqli_fetch_assoc($result)){
+                                    ?>
+                                      <tr>
+                                        <td><?php echo $row["Delivery_Id"] ?></td>
+                                        <td><?php echo $row["Emp_Id"] ?></td>
+                                        <td><?php echo $row["Delivery_Date"] ?></td>
+                                        <td><?php echo $row["Delivery_Cost"] ?></td>
+                                        <td><?php echo $row["Order_Id"] ?></td>
+                                        <td><?php echo $row["Vehicle_Id"] ?></td>
+                                        <td><?php echo $row["Delivery_Location"] ?></td>
+                                        <td><?php echo $row["Cust_Id"] ?></td>
+                                        <td><?php echo $row["Status"] ?></td>
+                                      </tr>
 
-                            
+                                    <?Php
+                                  }
+
+                                }else{
+                                  echo "<tr><td colspan='9'>No results found</td></tr>";
+                                }
+                              ?>                           
                             
                               </tbody>
                           </table>

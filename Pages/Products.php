@@ -25,10 +25,19 @@ $result2 = $conn->query($sql2);
             crossorigin="anonymous"
    />
    <script>
-    $(document).ready(function(){
-                // jQuery methods go here...
-
-    });
+    $(document).ready(function() {
+            $("#Search_btn").click(function() {
+                var query = $("#Search_txt").val();
+                $.ajax({
+                    url: "Products_search.php",
+                    type: "POST",
+                    data: { query: query },
+                    success: function(response) {
+                        $("#products_table tbody").html(response);
+                    }
+                });
+            });
+        });
 
 </script>
 <!-- Bootstrap JavaScript Libraries -->
@@ -82,7 +91,7 @@ $result2 = $conn->query($sql2);
     <li><a class="dropdown-item"href="Projects.php">Projects</a></li>
   </ul>
 </div></div>
-</nav><br>
+</nav>
 
         <div id="Products" class="container-fluid container-xl bg-transparent mt-4" style="border: 2px solid rgba( 255,255,255, .2);
                 backdrop-filter: blur(20px);                
@@ -90,15 +99,15 @@ $result2 = $conn->query($sql2);
                 box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);"><br>
 
             <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Search Product">
-            <button class="btn btn-outline-dark" type="submit">
+            <input type="text" class="form-control" placeholder="Search Product by name" id="Search_txt" name="Search_txt">
+            <button class="btn btn-outline-dark" type="submit" id="Search_btn" name="Search_btn">
                 <span class="bi bi-search"></span>
             </button>
             </div>
 
             <div class="container mt-3">
                         
-            <table class="table table-striped">
+            <table class="table table-striped" id="products_table">
                 <thead class=" table-dark">
                 <tr>
                     <th>Product Image</th>
@@ -128,7 +137,7 @@ $result2 = $conn->query($sql2);
                         $img_src = "data:image/jpeg;base64," . $img_data;
 
                         echo "<tr><td>";
-                        echo" <img src='$img_src' style='width:20px; length: 20px;' class='rounded-pill'>";
+                        echo" <img src='$img_src' style='width:30px;height:30px;border:2px solid gray;border-radius:8px;object-fit:cover'>";
                         echo"</td><td>".$id ."</td><td>". $name."</td><td>".$description."</td><td>".
                         $inicost."</td><td>".$price ."</td><td>".$quantity."</td><td>".$colors."</td></tr>";
                     }

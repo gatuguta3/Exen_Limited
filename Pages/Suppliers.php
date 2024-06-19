@@ -121,9 +121,26 @@
                                     <button type="button" class="btn btn-outline-dark" data-bs-toggle='modal' href="#Register_new_supplier">
                                         <span class="bi bi-person-plus"></span>
                                     </button>
+                                    <button class="btn btn-outline-dark" onclick="window.print()"><i class="bi bi-printer"></i></button>
                                     </div>
+                                    <style>
+                                      @media print{
+                                        body * {
+                                          visibility: hidden;
+                                        }
+                                        .printable_table, .printable_table * {
+                                          visibility: visible;
+                                        }
+                                        .printable_table {
+                                          position: absolute;
+                                          left: 0px;
+                                          top: 0px;
+                                        }
+                                        
+                                      }
+                                    </style>
 
-                                    <div class="container-responsive mt-3">                                            
+                                    <div class="container-responsive mt-3 printable_table">                                            
                                     <table class="table table-striped" id="supplier_table">
                                         <thead class=" table-dark">
                                         <tr>

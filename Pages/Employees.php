@@ -79,8 +79,14 @@ if (isset($_POST['Submit_emp']) ){
     dataType: "dataType",
     success: function (response) {
       
-    }
-  });     
+    }   });
+    
+    $(print1_btn).click(function(){
+       window.location.href = "Employee_print.php";
+     }); 
+
+  }); 
+      
 </script>
 <script>
 
@@ -191,9 +197,10 @@ style=" border: 2px solid rgba( 255,255,255, .2);
                           <div class="container  p-1 my-1">
                           <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#Register_Employee_Modal" >
                             <span class="bi bi-person-plus"></span>
-                          </button>
+                          </button>                        
+                          <button type="button" class="btn btn-outline-dark" id="print1_btn" ><i class="bi bi-printer"></i></button>
                         </div>
-                        </div> 
+                      
                         <div class="container-responsive mt-3">
                               
                           <table class="table table-striped" id="Employee_table">
@@ -214,34 +221,34 @@ style=" border: 2px solid rgba( 255,255,255, .2);
                             </thead>
                             <tbody>
 
-          <?php 
-          $sql3 = "SELECT * FROM employee_details";
-          $result3 = $conn->query($sql3);
-          while( $row3=mysqli_fetch_assoc($result3)){          
-          ?>
-          <tr>
-            <td><?php 
-                  $image=$row3["Emp_image"];
-                  $img_data = base64_encode($image);                 
-                  echo "<img src='$img_data' style='width:30px;height:30px;border:2px solid gray;border-radius:8px;object-fit:cover'";
-            ?></td>
-            <td><?php echo $row3["Emp_Id"]?></td>
-            <td><?php echo $row3["Emp_Firstname"]?></td>
-            <td><?php echo $row3["Emp_lastname"]?></td>
-            <td><?php echo $row3["Emp_national_Id"]?></td>
-            <td><?php echo $row3["Emp_Phonenumber"]?></td>
-            <td><?php echo $row3["Emp_emailAddress"]?></td>
-            <td><?php echo $row3["Emp_role"]?></td>
-            <td><?php echo $row3["Emp_dateofbirth"]?></td>
-            <td><?php echo $row3["Emp_gender"]?></td>
-            <td>
-            <a class="link-dark" href="Employee_update.php?id=<?php echo $row3["Emp_Id"]?>"><i class="bi bi-pencil"> Edit</i></a>
-            </td>
-            
-          </tr>
-   <?php       
-   }
-   ?>
+                                              <?php 
+                                              $sql3 = "SELECT * FROM employee_details";
+                                              $result3 = $conn->query($sql3);
+                                              while( $row3=mysqli_fetch_assoc($result3)){          
+                                              ?>
+                                              <tr>
+                                                <td><?php 
+                                                        $img_data = base64_encode($row3["Emp_image"]);
+                                                        $img_src = "data:image/jpeg;base64," . $img_data;
+                                                        echo" <img src='$img_src' style='width:30px;height:30px;border:2px solid gray;border-radius:8px;object-fit:cover'>"; ?>
+                                                 </td>
+                                                <td><?php echo $row3["Emp_Id"]?></td>
+                                                <td><?php echo $row3["Emp_Firstname"]?></td>
+                                                <td><?php echo $row3["Emp_lastname"]?></td>
+                                                <td><?php echo $row3["Emp_national_Id"]?></td>
+                                                <td><?php echo $row3["Emp_Phonenumber"]?></td>
+                                                <td><?php echo $row3["Emp_emailAddress"]?></td>
+                                                <td><?php echo $row3["Emp_role"]?></td>
+                                                <td><?php echo $row3["Emp_dateofbirth"]?></td>
+                                                <td><?php echo $row3["Emp_gender"]?></td>
+                                                <td>
+                                                <a class="link-dark" href="Employee_update.php?id=<?php echo $row3["Emp_Id"]?>"><i class="bi bi-pencil"> Edit</i></a>
+                                                </td>
+                                                
+                                              </tr>
+                                      <?php       
+                                      }
+                                      ?>
           
           
                               </tbody>

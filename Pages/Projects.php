@@ -26,11 +26,19 @@ require_once("connect.php");
             crossorigin="anonymous"
    />
    <script>
-    $(document).ready(function(){
-                // jQuery methods go here...
-
-
-    });
+         $(document).ready(function() {
+            $("#Search_btn").click(function() {
+                var query = $("#Search_txt").val();
+                $.ajax({
+                    url: "Projects_search.php",
+                    type: "POST",
+                    data: { query: query },
+                    success: function(response) {
+                        $("#transactions_table tbody").html(response);
+                    }
+                });
+            });
+        });
 
 </script>
 <!-- Bootstrap JavaScript Libraries -->
@@ -86,18 +94,21 @@ require_once("connect.php");
 </div></div>
 </nav><br>
         
-<div id="Projects" class="container "><br>
+<div id="Projects" class="container " style="border: 2px solid rgba( 255,255,255, .2);
+                backdrop-filter: blur(20px);                
+                border-radius: 10px;
+                box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);"><br>
 
 <div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="Search Proect by Location">
-  <button class="btn btn-outline-dark" type="submit">
+  <input type="text" class="form-control" placeholder="Search Proect by Location" id="Search_txt" name="Search_txt">
+  <button class="btn btn-outline-dark" type="submit" id="Search_btn" name="Search_btn">
     <span class="bi bi-search"></span>
   </button>
 </div>
 
 <div class="container mt-3">
               
-  <table class="table">
+  <table class="table" id="Projects_table">
     <thead class=" table-dark ">
       <tr>
         <th>Project Id</th>

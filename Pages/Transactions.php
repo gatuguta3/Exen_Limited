@@ -26,11 +26,19 @@ require_once 'connect.php';
             crossorigin="anonymous"
    />
    <script>
-    $(document).ready(function(){
-                // jQuery methods go here...
-
-
-              });
+        $(document).ready(function() {
+            $("#Search_btn").click(function() {
+                var query = $("#Search_txt").val();
+                $.ajax({
+                    url: "Transactions_search.php",
+                    type: "POST",
+                    data: { query: query },
+                    success: function(response) {
+                        $("#transactions_table tbody").html(response);
+                    }
+                });
+            });
+        });
 
 </script>
 <!-- Bootstrap JavaScript Libraries -->
@@ -84,11 +92,14 @@ require_once 'connect.php';
     <li><a class="dropdown-item"href="Projects.php">Projects</a></li>
   </ul>
 </div></div>
-</nav><br>
+</nav>
 
-<div id="Deliveries" class="container-fluid d-flex container-xl"><br>
+<div id="Deliveries" class="container-fluid d-flex container-xl" style="border: 2px solid rgba( 255,255,255, .2);
+                backdrop-filter: blur(20px);                
+                border-radius: 10px;
+                box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);">
                    
-                      <div class="col">
+                      <div class="col"><br>
                         <div class="input-group mb-3">
                           <input type="text" class="form-control" placeholder="Search delivery by location" id="Search_txt" name="Search_txt">
                           <button class="btn btn-outline-dark" type="submit" id="Search_btn" name="Search_btn">
@@ -97,7 +108,7 @@ require_once 'connect.php';
                         </div> 
                         <div class="container-responsive ">
                                   
-                          <table class="table " id="Employee_table">
+                          <table class="table " id="transactions_table">
                             <thead class="table-dark">
                               <tr>
                                 <th>Transaction Id</th>
@@ -108,13 +119,38 @@ require_once 'connect.php';
                                 <th>Amount</th>
                                 <th>Date Payed</th>
                                 <th>Approval date</th>
-                                <th>Status</th>
-                                
+                                <th>Status</th>                                
                               </tr>
                             </thead>
                             <tbody>
 
-                            
+                                <?php 
+                                  //`Transaction_Id`, `Cust_Id`, `Trasaction_Type`, `Serv_Id`,
+                                  // `Order_Id`, `Amount`, `Date_Payed`, `Date_Approved`, `Status`
+                                  $sql="SELECT * FROM transactions";
+                                  $result = mysqli_query($conn,$sql);
+                                  if($result->num_rows >0){ 
+                                    while ( $row = mysqli_fetch_assoc($result)){
+                                      ?>
+                                      <tr>
+                                      <td><?php echo $row["Transaction_Id"]?></td>
+                                      <td><?php echo $row["Cust_Id"]?></td>
+                                      <td><?php echo $row["Trasaction_Type"]?></td>
+                                      <td><?php echo $row["Serv_Id"]?></td>
+                                      <td><?php echo $row["Order_Id"]?></td>
+                                      <td><?php echo $row["Amount"]?></td>
+                                      <td><?php echo $row["Date_Payed"]?></td>
+                                      <td><?php echo $row["Date_Approved"]?></td>
+                                      <td><?php echo $row["Status"]?></td>
+                                      </tr>
+                                      <?php
+                                  }
+
+                                  }else{
+                                    echo "<tr><td colspan='9'>No results found</td></tr>";
+                                  }
+                              
+                                ?>                            
                             
                               </tbody>
                           </table>

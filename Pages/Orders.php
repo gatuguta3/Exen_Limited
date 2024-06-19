@@ -26,12 +26,19 @@ require_once("connect.php");
             crossorigin="anonymous"
    />
    <script>
-    $(document).ready(function(){
-                // jQuery methods go here...
-
-    
-
-              });
+            $(document).ready(function() {
+            $("#Search_btn").click(function() {
+                var query = $("#Search_txt").val();
+                $.ajax({
+                    url: "Transactions_search.php",
+                    type: "POST",
+                    data: { query: query },
+                    success: function(response) {
+                        $("#transactions_table tbody").html(response);
+                    }
+                });
+            });
+        });
 
 </script>
 <!-- Bootstrap JavaScript Libraries -->
@@ -95,7 +102,7 @@ require_once("connect.php");
                    
                       <div class="col">
                         <div class="input-group mb-3">
-                          <input type="text" class="form-control" placeholder="Search delivery by location" id="Search_txt" name="Search_txt">
+                          <input type="text" class="form-control" placeholder="Search order by " id="Search_txt" name="Search_txt">
                           <button class="btn btn-outline-dark" type="submit" id="Search_btn" name="Search_btn">
                             <span class="bi bi-search"></span>
                           </button><br>

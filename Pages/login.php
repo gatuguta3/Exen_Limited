@@ -183,12 +183,7 @@ if($conn-> connect_error){
           <input type="Password" id="password" name="password" placeholder="Password" required>
         </div><br><br>
         <button type="submit" class="submit ">Login</button>        
-      </form><br>
-      <div class="form-check mb-3">
-      <label class="form-check-label">
-        <input class="form-check-input" type="checkbox" name="remember"> Remember me
-      </label>
-    </div>      
+      </form><br>       
     </div>
     </body>
 </html>

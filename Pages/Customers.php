@@ -47,7 +47,11 @@ $result1 = $conn->query($sql1);
                 $('#ID').val(id);              
               }
             })
-          });               
+          }); 
+          
+          $(print_btn).click(function(){
+                    window.location.href = "Customers_print.php";
+                });    
 
    });
 
@@ -120,8 +124,9 @@ $result1 = $conn->query($sql1);
                               <input type="text" class="form-control" placeholder="Search customer">
                               <button class="btn btn-outline-dark" type="submit">
                                 <span class="bi bi-search"></span>
-                              </button>
+                              </button>                              
                             </div> 
+                            <button class="btn btn-outline-dark" id="print_btn"><i class="bi bi-printer"></i></button>
                             <div class="container-responsive mt-3">
                                       
                               <table id="customer_table" class="table">
@@ -142,24 +147,22 @@ $result1 = $conn->query($sql1);
                                     <?php
                                         if ($result1->num_rows > 0) {
                                         while ($row1 = $result1->fetch_assoc()) {
-                                          echo "<tr>";                                         
-                                          echo "<td>" . $row1["Cust_Id"] ."</td>";
-                                          echo "<td>" . $row1["Cust_Firstname"] ."</td>";
-                                          echo "<td>" . $row1["Cust_Lastname"] ."</td>";
-                                          echo  "<td>" . $row1["Cust_Phonenumber"] ."</td>";
-                                          echo"<td>" . $row1["Cust_Location"] ."</td>";
-                                          echo"<td>" . $row1["Cust_Email"] ."</td>";
-                                          echo"<td>" . $row1["Cust_Dateofbirth"] ."</td>";
-                                          echo"<td>" . $row1["Cust_National_Idno"] ."</td>";
-                                          echo "<td>" ;
-                                          echo "
-                                          <button type='button' class='btn btn-outline-dark '>
-                                          <i class='bi bi-eye'></i>
-                                          </button>
-                                               ";                   
-                                              
-                                          echo "</td>";
-                                          echo "</tr>";                                               
+                                          ?>
+                                          <tr>                                         
+                                          <td><?php echo $row1["Cust_Id"] ?></td>
+                                          <td><?php echo $row1["Cust_Firstname"] ?></td>
+                                          <td><?php echo $row1["Cust_Lastname"] ?></td>
+                                          <td><?php echo $row1["Cust_Phonenumber"] ?></td>
+                                          <td><?php echo $row1["Cust_Location"] ?></td>
+                                          <td><?php echo $row1["Cust_Email"] ?></td>
+                                          <td><?php echo $row1["Cust_Dateofbirth"] ?></td>
+                                          <td><?php echo $row1["Cust_National_Idno"] ?></td>
+                                          <td>
+                                          <a class="link-dark" href="Customers_details.php?id=<?php echo $row1 ["Cust_Id"]?>"><i class="bi bi-eye"> View</i></a>                  
+                                                
+                                          </td>
+                                          </tr>  
+                                          <?php                                             
                                           }
                                     
                                     }else{
@@ -169,7 +172,7 @@ $result1 = $conn->query($sql1);
                                 </tbody>
                               </table>
                             </div>
-
+                                    
                           </div>                      
                         </div>
                                                 

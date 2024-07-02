@@ -57,15 +57,13 @@
   <header>
     <!-- This section contains the logo and admin heading -->
     <nav class="navbar text-bg-dark">
-                <div class="container-fluid">
-
-                    <a class="navbar-brand" href="#">
-                        <img src="E1.png" alt="Avatar Logo" style="width:40px;" class="rounded-pill"> 
-                      </a>
-                      <p class="h3"> Administrator</p>
-                                     
-                </div>
-              </nav>
+          <div class="container-fluid">
+              <a class="navbar-brand" href="#">
+                 <img src="E1.png" alt="Avatar Logo" style="width:40px;" class="rounded-pill"> 
+              </a>
+                  <p class="h3"> Administrator</p>                                     
+           </div>
+     </nav>
   </header>
   <main>
   <nav class="navbar">
@@ -199,25 +197,79 @@
       </div>
 
       <!-- Modal body -->
-      <form>
-      <div class="modal-body">  
-                  <input type="text" class="form-control mt-3" placeholder="Name" required>                  
-                  <input type="text" class="form-control mt-3" placeholder="Location" required>
-                  <input type="text" class="form-control mt-3" placeholder="Type" required> 
-                  <input type="text" class="form-control mt-3" placeholder="Phone number" required>
-                  <input type="text" class="form-control mt-3" placeholder="Email address">
-                  <input type="date" class="form-control mt-3" id="datepicker" placeholder="contract start date">                   
-      </div>
+      
+      <div class="modal-body"> 
+      <form method="POST"> 
+                  <input type="text" class="form-control mt-3" placeholder="Name" required name="S_name" id="S_name">                  
+                  <input type="text" class="form-control mt-3" placeholder="Location" required name="S_Location" id="S_Location"><br>
+                  <div class="form-group mb-3">
+                    <label>Supplier type:</label>
+                    &nbsp;
+                    <input type="radio" class="form-check-input" name="S_type" id="radio1" value="Company">
+                    <label for="male" class="form-input-label">Company</label>
+                    &nbsp;
+                    <input type="radio" class="form-check-input" name="S_type" id="radio2" value="Individual">
+                    <label for="female" class="form-input-label">Individual</label>
+                  </div> 
+                  <input type="text" class="form-control mt-3" placeholder="Phone number" required name="S_pno" id="S_pno">
+                  <input type="text" class="form-control mt-3" placeholder="Email address" name="S_email" id="S_email">
+                  <input type="date" class="form-control mt-3" id="datepicker" placeholder="contract start date" required name="S_date" id="S_date">                   
+      
       <!-- Modal footer -->
       <div class="modal-footer">
-      <button class="btn btn-outline-dark mt-3" type="button">Submit</button>
+      <button class="btn btn-outline-dark mt-3" type="submit" name="submit_supplier">Submit</button>
       </div>
       </form>
+      </div>
+      
 
     </div>
   </div>
 
 </div>
+<?php
+//INSERT INTO `suppliers`(`Supplier_Id`, `Name`, `Type`, 
+//`Location`, `Phonenumber`, `email_address`, `start_date`)
+// VALUES ('[value-1]','[value-2]','[value-3]','[value-4]',
+//'[value-5]','[value-6]','[value-7]')
+
+if(isset($_POST['submit_supplier'])){
+   $supid=uniqid();
+   $Sname=$_POST['S_name'];
+   $Stype=$_POST['S_type'];
+   $Slocation=$_POST['S_Location'];
+   $Spno=$_POST['S_pno'];
+   $SEmail=$_POST['S_email'];
+   $Sdate=$_POST['S_date'];
+
+   $sql="INSERT INTO suppliers (`Supplier_Id`, `Name`, `Type`,
+        `Location`, `Phonenumber`, `email_address`, `start_date`)VALUES
+         ('$supid','$Sname','$Stype','$Slocation','$Spno','$SEmail','$Sdate')";
+  
+  $default_status="pending";
+  $role="supplier";
+  $pass="$Spno";
+
+  $sql1="INSERT INTO users (ID,Email, Password ,User_Role, Account_status)
+          VALUES ('$supid','$SEmail','$pass','$role','$default_status')";
+
+if ($conn->query($sql,) === TRUE) {
+  if ($result6->num_rows > 0) {
+    while ($row6 = $result6->fetch_assoc()) {
+     header('location:Suppliers.php');    
+}
+} else {
+    echo "Failed " ;
+}}
+if($conn->query($sql1) === TRUE){
+  
+}else{
+  echo "Failed " ; 
+}
+
+}
+
+?>
 
 
   </main>

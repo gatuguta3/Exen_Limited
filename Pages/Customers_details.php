@@ -1,5 +1,7 @@
 <?php 
-
+ require_once("connect.php");
+$id= $_GET["id"];
+   
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,8 +34,52 @@
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
             crossorigin="anonymous"
         ></script>
+        <script>
+            $(document).ready(function(){
+
+                $(back_btn).click(function(){
+                  window.location.href = "Customers.php";
+                }); 
+            });
+        </script>
 </head>
 <body>
+<header>
+<nav class="navbar text-bg-dark">
+          <div class="container-fluid">              
+                 <img src="E1.png" alt="Avatar Logo" style="width:40px;" class="rounded-pill"> 
+                 <h5>Customer details</h5>
+                 <p class="h5"> Administrator</p>                                     
+           </div>
+     </nav>
+</header><br>
+
+<main>
     
+    <?php 
+        $sql="SELECT * FROM customer_details WHERE `Cust_Id` ='$id'"; 
+        $result = mysqli_query($conn,$sql); 
+        $row = mysqli_fetch_assoc($result);
+    ?>
+    <div class="container" style="border: 2px solid rgba( 255,255,255, .2);
+                backdrop-filter: blur(20px);                
+                border-radius: 10px;
+                box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);
+                width:20vw;">
+    <h6>Customer Id: <?php echo "$id" ?></h6>
+    <h6>Name: <?php  echo $row['Cust_Firstname']; echo" "; echo $row['Cust_Lastname'] ?></h6> 
+    </div><br>
+    <div class="container" style="border: 2px solid rgba( 255,255,255, .2);
+                backdrop-filter: blur(20px);                
+                border-radius: 10px;
+                box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);
+                width:90vw;">        
+        <button class="btn btn-outline-dark" id="back_btn"><i class="bi bi-arrow-90deg-left"></i></button>
+
+    </div>
+</main>
+<footer>
+
+</footer>    
 </body>
 </html>

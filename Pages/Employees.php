@@ -26,8 +26,9 @@ if (isset($_POST['Submit_emp']) ){
              VALUES ('$empid', '$empname','$emplname','$empidno','$empphone','$empemail','$emprole',' $empdate ',' $empgender','$imgContent')";
 
     $default_status="Pending";
-    $sql5= "INSERT INTO users (Email,User_Role, Account_status)
-          VALUES ('$empemail','$emprole','$default_status')";
+    $pass="$empphone";
+    $sql5= "INSERT INTO users (ID,Email,Password,User_Role, Account_status)
+          VALUES ('$empid','$empemail','$pass','$emprole','$default_status')";
 
   if ($conn->query($sql4,) === TRUE) {
     if ($result3->num_rows > 0) {

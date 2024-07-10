@@ -3,7 +3,7 @@
 $host="Localhost";
 $pass="";
 $user="root";
-$db="exen_limited";
+$db="exen-limited";
 
 $conn=mysqli_connect($host,$user,$pass,$db);
 
@@ -13,16 +13,20 @@ if($conn-> connect_error){
 
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get data from form
-    $username = $_POST["Username"];
+    $email = $_POST["email"];
     $password = $_POST["password"];
     
-    $sql="SELECT `Email`, `Password` FROM users WHERE Email='$username' AND Password='$password'";
+    $sql="SELECT `Email`, `Password` FROM users WHERE Email='$email' AND Password='$password'";
     $result = $conn->query($sql);
    if($result->num_rows > 0) {
       $redirect_url = "Dashboard.php";
       header("Location: $redirect_url");
       exit;      
     } 
+    else{
+      $redirect_url = "Login.php";
+      header("Location: $redirect_url");
+    }
           
   }
 
@@ -172,15 +176,20 @@ if($conn-> connect_error){
     </head>
     <body>
     
-    <div class="Main">      
+    <div class="Main">   
+    <?php if (isset($_GET['error'])) : ?>
+        <p style="color: red;">
+            <?php echo ($_GET['error'] === 'email') ? 'Email does not exist.' : 'Incorrect Password.'; ?>
+        </p>
+    <?php endif; ?>   
       <form  method="POST" class="Login_Form">
           <h1>EXEN LIMITED</h1>
           <h2>Admin</h2>          
           <div class="Username">
-            <input type="text" id="Username"  name="Username" placeholder="Username" required>
+            <input type="text" id="Username"  name="email" id="email" placeholder="Email" required>
         </div>
         <div class="Password">
-          <input type="Password" id="password" name="password" placeholder="Password" required>
+          <input type="Password" id="password" name="password" id="password" placeholder="Password" required>
         </div><br><br>
         <button type="submit" class="submit ">Login</button>        
       </form><br>       

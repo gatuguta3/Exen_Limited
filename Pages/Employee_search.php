@@ -22,7 +22,7 @@ if ($result3->num_rows > 0) {
     <td><?php echo $row3["Emp_lastname"]?></td>
     <td><?php echo $row3["Emp_national_Id"]?></td>
     <td><?php echo $row3["Emp_Phonenumber"]?></td>
-    <td><?php echo $row3["Emp_emailAddress"]?></td>
+    <td><?php echo $row3["Email"]?></td>
     <td><?php echo $row3["Emp_role"]?></td>
     <td><?php echo $row3["Emp_dateofbirth"]?></td>
     <td><?php echo $row3["Emp_gender"]?></td>

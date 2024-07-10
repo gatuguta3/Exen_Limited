@@ -14,16 +14,12 @@ if (isset($_POST['Submit_emp']) ){
   $empemail = $_POST['EM_emp'];
   $emprole = $_POST['role'];
   $empdate = $_POST['date_emp'];
-  $empgender= $_POST['optradio']; 
-  $image = $_FILES['image']['tmp_name'];
-  $imgContent = addslashes(file_get_contents($image));
-
-   
+  $empgender= $_POST['optradio'];   
 
 
   $sql4 =   "INSERT INTO employee_details (Emp_Id,Emp_Firstname,Emp_lastname,Emp_national_Id, Emp_Phonenumber,
-             Emp_emailAddress,Emp_role,Emp_dateofbirth,Emp_gender,Emp_image) 
-             VALUES ('$empid', '$empname','$emplname','$empidno','$empphone','$empemail','$emprole',' $empdate ',' $empgender','$imgContent')";
+             Email,Emp_role,Emp_dateofbirth,Emp_gender) 
+             VALUES ('$empid', '$empname','$emplname','$empidno','$empphone','$empemail','$emprole',' $empdate ',' $empgender')";
 
     $default_status="Pending";
     $pass="$empphone";
@@ -206,8 +202,7 @@ style=" border: 2px solid rgba( 255,255,255, .2);
                               
                           <table class="table table-striped" id="Employee_table">
                             <thead class="table-dark">
-                              <tr>
-                                <th>Image</th>
+                              <tr>                                
                                 <th>Employee Id</th>
                                 <th>First name</th>
                                 <th>Last name</th>
@@ -227,18 +222,13 @@ style=" border: 2px solid rgba( 255,255,255, .2);
                                               $result3 = $conn->query($sql3);
                                               while( $row3=mysqli_fetch_assoc($result3)){          
                                               ?>
-                                              <tr>
-                                                <td><?php 
-                                                        $img_data = base64_encode($row3["Emp_image"]);
-                                                        $img_src = "data:image/jpeg;base64," . $img_data;
-                                                        echo" <img src='$img_src' style='width:30px;height:30px;border:2px solid gray;border-radius:8px;object-fit:cover'>"; ?>
-                                                 </td>
+                                              <tr>                                                
                                                 <td><?php echo $row3["Emp_Id"]?></td>
                                                 <td><?php echo $row3["Emp_Firstname"]?></td>
                                                 <td><?php echo $row3["Emp_lastname"]?></td>
                                                 <td><?php echo $row3["Emp_national_Id"]?></td>
                                                 <td><?php echo $row3["Emp_Phonenumber"]?></td>
-                                                <td><?php echo $row3["Emp_emailAddress"]?></td>
+                                                <td><?php echo $row3["Email"]?></td>
                                                 <td><?php echo $row3["Emp_role"]?></td>
                                                 <td><?php echo $row3["Emp_dateofbirth"]?></td>
                                                 <td><?php echo $row3["Emp_gender"]?></td>
@@ -262,8 +252,12 @@ style=" border: 2px solid rgba( 255,255,255, .2);
 </div>
 
 
+
+
+</main>  
+
 <!-- This is the employee registration Modal -->
-  <div class="modal" id="Register_Employee_Modal">
+<div class="modal" id="Register_Employee_Modal">
   <div class="modal-dialog modal-xl">
     <div class="modal-content ">
 
@@ -295,8 +289,7 @@ style=" border: 2px solid rgba( 255,255,255, .2);
                         <div class="form-check">
                         <input type="radio" class="form-check-input" id="radio2" name="optradio" value="Female">
                         <label class="form-check-label" for="radio2">Female</label> 
-                        <input type="file" class="form-control mt-3" placeholder="Choose employee's image" id="image" name="image">
-                     <!-- Modal footer -->
+                        <!-- Modal footer -->
                     <div class="modal-footer">
                     <button class="btn btn-outline-dark mt-2" type="submit" name="Submit_emp">Submit</button>                    
                     </div>
@@ -305,20 +298,6 @@ style=" border: 2px solid rgba( 255,255,255, .2);
                     
                     </div></div>
   </div>
-</div>
-</main><br><br>
-
-
-<footer>
-<div class="container-fluid ">
-
-<a class="navbar-brand" >
-    <img src="E1.png" alt="Avatar Logo" style="width:40px;" class="rounded-pill"> 
-  </a>
-  <p class="h3"> Exen Limited </p>
-                
-</div>
-</footer>
-    
+</div>  
 </body>
 </html>

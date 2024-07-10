@@ -38,7 +38,7 @@ foreach($dbo=$result as $row) {
     $pdf->Cell($width_cell[2],10,$row['Cust_Lastname'],0,0,'C',$fill);
     $pdf->Cell($width_cell[3],10,$row['Cust_Phonenumber'],0,0,'C',$fill);
     $pdf->Cell($width_cell[4],10,$row['Cust_Location'],0,0,'C',$fill);
-    $pdf->Cell($width_cell[5],10,$row['Cust_Email'],0,0,'C',$fill);
+    $pdf->Cell($width_cell[5],10,$row['Email'],0,0,'C',$fill);
     $pdf->Cell($width_cell[6],10,$row['Cust_Dateofbirth'],0,0,'C',$fill);
     $pdf->Cell($width_cell[7],10,$row['Cust_National_Idno'],0,1,'C',$fill);
 }

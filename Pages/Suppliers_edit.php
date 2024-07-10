@@ -47,21 +47,21 @@ $id= $_GET["id"];
             <form action="" method="post">
                 <!-- `Supplier_Id`, `Name`, `Type`, `Location`, `Phonenumber`, `email_address`, `start_date`  -->
                   <input type="hidden" class="form-control mt-3" placeholder="Name" value="<?php echo $row['Supplier_Id']?>" name="Sid">                  
-                  <input type="text" class="form-control mt-3" placeholder="Name" value="<?php echo $row['Name']?>" name="Sname">                  
-                  <input type="text" class="form-control mt-3" placeholder="Location" value="<?php echo $row['Location'] ?>" name="Slocation">
+                  <input type="text" class="form-control mt-3" placeholder="Name" value="<?php echo $row['S_Name']?>" name="Sname">                  
+                  <input type="text" class="form-control mt-3" placeholder="Location" value="<?php echo $row['S_Location'] ?>" name="Slocation">
                   <input type="text" class="form-control mt-3" placeholder="Phone number" value="<?php echo $row['Phonenumber'] ?>" name="Sphone">
                   <input type="text" class="form-control mt-3" placeholder="Email address" value="<?php echo $row['email_address'] ?>" name="Semail">
                   <input type="date" class="form-control mt-3" id="datepicker" placeholder="contract start date" 
-                          value="<?php $date=$row['start_date']; 
+                          value="<?php $date=$row['S_start_date']; 
                                        $date = date('Y-m-d', strtotime($date));
                                        echo htmlspecialchars($date);?>" name="Sdate" id="Sdate"><br>
                   <div class="form-group mb-3">
                     <label>Supplier type:</label>
                     &nbsp;
-                    <input type="radio" class="form-check-input" name="Stype" id="male" value="Company" <?php echo ($row["Type"] == 'Company') ? "checked" : ""; ?>>
+                    <input type="radio" class="form-check-input" name="Stype" id="male" value="Company" <?php echo ($row["S_Type"] == 'Company') ? "checked" : ""; ?>>
                     <label for="male" class="form-input-label">Company</label>
                     &nbsp;
-                    <input type="radio" class="form-check-input" name="Stype" id="female" value="Individual" <?php echo ($row["Type"] == 'Individual') ? "checked" : ""; ?>>
+                    <input type="radio" class="form-check-input" name="Stype" id="female" value="Individual" <?php echo ($row["S_Type"] == 'Individual') ? "checked" : ""; ?>>
                     <label for="female" class="form-input-label">Individual</label>
                   </div>
                   <button class="btn btn-outline-dark mt-3" type="submit" name="submit">Update</button>
@@ -77,8 +77,8 @@ $id= $_GET["id"];
         $date= $_POST['Sdate'];
         $type= $_POST['Stype']; 
        
-       $sql="UPDATE suppliers SET `Name`='$name', `Type`='$type', `Location`='$location',
-                    `Phonenumber`='$PhoneNo', `email_address`='$email', `start_date`='$date' WHERE Supplier_Id = '$Sid' ";
+       $sql="UPDATE suppliers SET `S_Name`='$name', `S_Type`='$type', `S_Location`='$location',
+                    `Phonenumber`='$PhoneNo', `email_address`='$email', `S_start_date`='$date' WHERE Supplier_Id = '$Sid' ";
        
         $result = mysqli_query($conn, $sql);
        

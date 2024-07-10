@@ -8,12 +8,12 @@
             ?>
             <tr>
               <td><?php echo $row6["Supplier_Id"]?></td>
-              <td><?php echo $row6["Name"] ?></td>
-              <td><?php echo $row6["Type"] ?></td>
-              <td><?php echo $row6["Location"]?></td>
+              <td><?php echo $row6["S_Name"] ?></td>
+              <td><?php echo $row6["S_Type"] ?></td>
+              <td><?php echo $row6["S_Location"]?></td>
               <td><?php echo $row6["Phonenumber"];?></td>
               <td><?php echo $row6["email_address"]?></td>
-              <td><?php echo $row6["start_date"]?></td>
+              <td><?php echo $row6["S_start_date"]?></td>
               <td>                                               
                   <a class="link-dark" href="Suppliers_edit.php?id=<?php echo $row6 ["Supplier_Id"]?>"><i class="bi bi-pencil"> Edit</i></a>                                                 
               </td>

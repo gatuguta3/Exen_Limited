@@ -40,7 +40,7 @@ foreach($dbo=$result as $row) {
     $pdf->Cell($width_cell[2],10,$row['Emp_lastname'],0,0,'C',$fill);
     $pdf->Cell($width_cell[3],10,$row['Emp_national_Id'],0,0,'C',$fill);
     $pdf->Cell($width_cell[4],10,$row['Emp_Phonenumber'],0,0,'C',$fill);
-    $pdf->Cell($width_cell[5],10,$row['Emp_emailAddress'],0,0,'C',$fill);
+    $pdf->Cell($width_cell[5],10,$row['Email'],0,0,'C',$fill);
     $pdf->Cell($width_cell[6],10,$row['Emp_role'],0,0,'C',$fill);
     $pdf->Cell($width_cell[7],10,$row['Emp_dateofbirth'],0,0,'C',$fill);
     $pdf->Cell($width_cell[8],10,$row['Emp_gender'],0,1,'C',$fill);

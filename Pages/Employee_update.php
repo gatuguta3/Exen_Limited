@@ -41,13 +41,11 @@ $id= $_GET["id"];
                 <?php                                          
                     $sql6="SELECT * FROM employee_details WHERE Emp_Id ='$id'";
                     $result6 = mysqli_query($conn,$sql6); 
-                    $row = mysqli_fetch_assoc($result6);
-                                                                                        //`Emp_Id`, `Emp_Firstname`, `Emp_lastname`, `Emp_national_Id`, `Emp_Phonenumber`, `Emp_emailAddress`, 
-                                                                                        //`Emp_role`, `Emp_dateofbirth`, `Emp_gender`, `Emp_image`
+                    $row = mysqli_fetch_assoc($result6);               
                 ?>
             <form action="" method="post">
                       <input type="hidden" class="form-control mt-3" placeholder="Customer id" name="edit-id" value="<?php echo $row['Emp_Id'] ?>">
-                      <input type="text" class="form-control mt-3" readonly class="form-control-plaintext" value="<?php echo $row['Emp_emailAddress'] ?>" placeholder="Email address" name="edit-email">
+                      <input type="text" class="form-control mt-3"  value="<?php echo $row['Email'] ?>" placeholder="Email address" name="edit-email">
                       <input type="text" class="form-control mt-3" placeholder="First name" name="edit-fname" value="<?php echo $row['Emp_Firstname'] ?>">
                       <input type="text" class="form-control mt-3" placeholder="Last name" name="edit-lname" value="<?php echo $row['Emp_lastname'] ?>">
                       <input type="text" class="form-control mt-3" placeholder="National id number" name="edit-national-id" value="<?php echo $row['Emp_national_Id'] ?>">
@@ -81,17 +79,14 @@ $id= $_GET["id"];
                                 $role= $_POST['edit-role'];
                                 $gender= $_POST['gender'];
 
-                        $sql=" UPDATE employee_details SET ,`Emp_Firstname`='$fname'
-                                    ,`Emp_lastname`='$lname',`Emp_national_Id`='$Nid'
-                                    ,`Emp_Phonenumber`='$PhoneNo'
-                                    ,`Emp_emailAddress`='$email',`Emp_role`='$role'
-                                    ,`Emp_dateofbirth`='$date'
+                        $sql=" UPDATE employee_details SET `Emp_Firstname`='$fname',`Emp_lastname`='$lname',`Emp_national_Id`='$Nid'
+                                    ,`Emp_Phonenumber`='$PhoneNo',`Email`='$email',`Emp_role`='$role',`Emp_dateofbirth`='$date'
                                     ,`Emp_gender`='$gender' WHERE Emp_Id = '$Eid'";
 
                         $result = mysqli_query($conn, $sql);
                             
                         if ($result) {
-                        header("Location: Employees.php");
+                        header("Location: Employees.php?msg=data updated successfully");
                         } else {
                         echo  '<div class="alert alert-warning alert-dismissible fade show" role="alert">
                                 ' ."Failed: " . mysqli_error($conn). '

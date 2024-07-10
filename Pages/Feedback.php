@@ -113,6 +113,7 @@ require_once("connect.php");
                               <tr>
                                 <th>Feedback Id</th>
                                 <th>Customer Id</th>
+                                <th>Receiver Id</th>
                                 <th>Time sent</th>
                                 <th>Date sent</th>
                                 <th>Content</th>                                
@@ -131,6 +132,7 @@ require_once("connect.php");
                                     <tr>
                                       <td><?php echo $row["Feedback_Id"] ?></td>
                                       <td><?php echo $row["Cust_Id"] ?></td>
+                                      <td><?php echo $row["Receiver_Id"] ?></td>
                                       <td><?php echo $row["Time_Sent"] ?></td>
                                       <td><?php echo $row["Date_Sent"] ?></td>
                                       <td><?php echo $row["Description"] ?></td>

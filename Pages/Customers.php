@@ -154,7 +154,7 @@ $result1 = $conn->query($sql1);
                                           <td><?php echo $row1["Cust_Lastname"] ?></td>
                                           <td><?php echo $row1["Cust_Phonenumber"] ?></td>
                                           <td><?php echo $row1["Cust_Location"] ?></td>
-                                          <td><?php echo $row1["Cust_Email"] ?></td>
+                                          <td><?php echo $row1["Email"] ?></td>
                                           <td><?php echo $row1["Cust_Dateofbirth"] ?></td>
                                           <td><?php echo $row1["Cust_National_Idno"] ?></td>
                                           <td>

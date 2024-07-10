@@ -5,7 +5,7 @@
 $host="Localhost";
 $pass="";
 $user="root";
-$db="exen_limited";
+$db="exen-limited";
 
 $conn=mysqli_connect($host,$user,$pass,$db);
 

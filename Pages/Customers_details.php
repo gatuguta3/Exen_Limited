@@ -75,7 +75,38 @@ $id= $_GET["id"];
                 box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);
                 width:90vw;">        
         <button class="btn btn-outline-dark" id="back_btn"><i class="bi bi-arrow-90deg-left"></i></button>
-
+        
+        <h6 class="p-2" >More information :</h6>
+            <div class="row" >
+           
+                <div class="col ">                                  
+                    <h6> <?php  echo $row['Cust_Phonenumber']?></h6>
+                    <h6> <?php  echo $row['Cust_Location']?></h6>
+                    <h6> <?php  echo $row['Email']?></h6>                    
+                </div>
+                <div class="col">
+                    <h6> <?php  echo $row['Cust_Dateofbirth']?></h6>
+                    <h6> <?php  echo $row['Cust_Gender']?></h6>
+                    <h6> <?php  echo $row['Cust_National_Idno']?></h6>
+                </div>        
+            </div><br><br>
+            
+            <div class="row ">
+                <div class="col">
+                    <h6 >Transaction History</h6>
+                </div><br>
+                <div class="col">
+                    <h6>Delivery History</h6>
+                </div><br>
+                <div class="col">
+                    <h6>Feedback History</h6>
+                </div>
+                <div class="col">
+                    <h6>Order History</h6>
+                </div>   
+            </div>
+            
+            
     </div>
 </main>
 <footer>

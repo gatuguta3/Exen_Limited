@@ -97,9 +97,9 @@ require_once("connect.php");
 
 <div id="Supplies" class="container-fluid container-xl bg-transparent"><br>
                                 <div class="row" style="border: 2px solid rgba( 255,255,255, .2);
-                backdrop-filter: blur(20px);                
-                border-radius: 10px;
-                box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);">
+                                backdrop-filter: blur(20px);                
+                                border-radius: 10px;
+                                box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);">
                                 <div class="col mt-4">
 
                                     <div class="input-group mb-3">
@@ -128,6 +128,7 @@ require_once("connect.php");
                                             //`Supply_Id`, `Name`, `Description`,
                                             // `Quantity`, `Price`, `Supplier_Id`, `Image`
                                             $result = mysqli_query($conn,$sql);
+                                            if($result->num_rows >0){
                                             while ( $row = mysqli_fetch_assoc($result)){
                                             ?>
                                             <tr>
@@ -145,6 +146,9 @@ require_once("connect.php");
                                             </tr>
                                             <?php
                                             }
+                                             }else{
+                                                echo "<tr><td colspan='7'>No results found</td></tr>";
+                                             }
                                             
                                             ?>
 

@@ -1,5 +1,43 @@
 <?php
   include 'connect.php';
+  $sql6="SELECT * FROM suppliers";
+  $result6 = mysqli_query($conn,$sql6);
+
+  if(isset($_POST['submit_supplier'])){
+    $supid=uniqid();
+    $Sname=$_POST['S_name'];
+    $Stype=$_POST['S_type'];
+    $Slocation=$_POST['S_Location'];
+    $Spno=$_POST['S_pno'];
+    $SEmail=$_POST['S_email'];
+    $Sdate=$_POST['S_date'];
+ 
+    $sql="INSERT INTO suppliers ( Supplier_Id, S_Name, S_Type,
+         S_Location, Phonenumber, email_address, S_start_date)VALUES
+          ('$supid','$Sname','$Stype','$Slocation','$Spno','$SEmail','$Sdate')";
+   
+   $default_status="pending";
+   $role="supplier";
+   $pass="$Spno";
+ 
+   $sql1="INSERT INTO users (ID,Email, Password ,User_Role, Account_status)
+           VALUES ('$supid','$SEmail','$pass','$role','$default_status')";
+ 
+ if ($conn->query($sql,) === TRUE) {
+   if ($result6->num_rows > 0) {
+     while ($row6 = $result6->fetch_assoc()) {
+      header('location:Suppliers.php');    
+ }
+ } else {
+     echo "Failed " ;
+ }}
+ if($conn->query($sql1) === TRUE){
+   
+ }else{
+   echo "Failed " ; 
+ }
+ 
+ }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -102,10 +140,11 @@
     }
     ?>
             <div id="Suppliers" class="container-fluid container-xl "><br>
-                                <div class="row " style="border: 2px solid rgba( 255,255,255, .2);
-                                                          backdrop-filter: blur(20px);                
-                                                          border-radius: 10px;
-                                                          box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);">
+                                <div class="row " 
+                                style="border: 2px solid rgba( 255,255,255, .2);
+                                       backdrop-filter: blur(20px);                
+                                       border-radius: 10px;
+                                       box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);">
                                 <div class="col mt-3">
 
                                     <div class="input-group mb-3" >
@@ -161,12 +200,12 @@
                                             ?>
                                             <tr>
                                               <td><?php echo $row6["Supplier_Id"]?></td>
-                                              <td><?php echo $row6["Name"] ?></td>
-                                              <td><?php echo $row6["Type"] ?></td>
-                                              <td><?php echo $row6["Location"]?></td>
+                                              <td><?php echo $row6["S_Name"] ?></td>
+                                              <td><?php echo $row6["S_Type"] ?></td>
+                                              <td><?php echo $row6["S_Location"]?></td>
                                               <td><?php echo $row6["Phonenumber"];?></td>
                                               <td><?php echo $row6["email_address"]?></td>
-                                              <td><?php echo $row6["start_date"]?></td>
+                                              <td><?php echo $row6["S_start_date"]?></td>
                                               <td>                                               
                                                   <a class="link-dark" href="Suppliers_edit.php?id=<?php echo $row6 ["Supplier_Id"]?>"><i class="bi bi-pencil"> Edit</i></a>                                                 
                                               </td>
@@ -184,7 +223,8 @@
                                 </div>                           
             </div>
 
-<!-- This is the supplier Register Modal -->
+  </main>
+  <!-- This is the supplier Register Modal -->
 
 <div class="modal" id="Register_new_supplier">
   <div class="modal-dialog modal-dialog-centered">
@@ -226,56 +266,6 @@
     </div>
   </div>
 
-</div>
-<?php
-//INSERT INTO `suppliers`(`Supplier_Id`, `Name`, `Type`, 
-//`Location`, `Phonenumber`, `email_address`, `start_date`)
-// VALUES ('[value-1]','[value-2]','[value-3]','[value-4]',
-//'[value-5]','[value-6]','[value-7]')
-
-if(isset($_POST['submit_supplier'])){
-   $supid=uniqid();
-   $Sname=$_POST['S_name'];
-   $Stype=$_POST['S_type'];
-   $Slocation=$_POST['S_Location'];
-   $Spno=$_POST['S_pno'];
-   $SEmail=$_POST['S_email'];
-   $Sdate=$_POST['S_date'];
-
-   $sql="INSERT INTO suppliers (`Supplier_Id`, `Name`, `Type`,
-        `Location`, `Phonenumber`, `email_address`, `start_date`)VALUES
-         ('$supid','$Sname','$Stype','$Slocation','$Spno','$SEmail','$Sdate')";
-  
-  $default_status="pending";
-  $role="supplier";
-  $pass="$Spno";
-
-  $sql1="INSERT INTO users (ID,Email, Password ,User_Role, Account_status)
-          VALUES ('$supid','$SEmail','$pass','$role','$default_status')";
-
-if ($conn->query($sql,) === TRUE) {
-  if ($result6->num_rows > 0) {
-    while ($row6 = $result6->fetch_assoc()) {
-     header('location:Suppliers.php');    
-}
-} else {
-    echo "Failed " ;
-}}
-if($conn->query($sql1) === TRUE){
-  
-}else{
-  echo "Failed " ; 
-}
-
-}
-
-?>
-
-
-  </main>
-  <footer>
- 
-  </footer>
-    
+</div>    
 </body>
 </html>

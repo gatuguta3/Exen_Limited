@@ -1,0 +1,77 @@
+body: SingleChildScrollView(
+        child: Column(
+          children: [         
+
+          
+
+             const SizedBox(
+              height: 20,
+            ),
+
+             Container(
+              child: const Text('Products',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold)),
+            ),
+
+            const SizedBox(
+              height: 10,
+            ),
+
+            TextFormField(
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                filled:true,
+                icon: Icon(Icons.search) ,
+                labelText: 'search product by name',
+              ),
+            ),
+
+             const SizedBox(
+              height: 4,
+            ),
+
+           Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Category',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold)),
+                const SizedBox(height: 4),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      Wrap(
+                        spacing: 3.0,
+                        children: List<Widget>.generate(
+                          _options.length,
+                          (int index) {
+                            return ChoiceChip(
+                              label: Text(_options[index]),
+                              selected: _selectedIndex == index,
+                              onSelected: (bool selected) {
+                                setState(() {
+                                  _selectedIndex = (selected ? index : null)!;
+                                });
+                              },
+                            );
+                          },
+                        ).toList(),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+
+
+
+          ],
+        ),        
+      ),

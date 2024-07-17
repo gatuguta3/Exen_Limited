@@ -1,5 +1,6 @@
 <?php
  include 'Connect.php';
+ header("Access-Control-Allow-Origin: *");
 
  $query= "SELECT Product_Id, Product_Name, Product_Description, brand, Category, Initial_Cost, Product_Price, Quantity, Available_Colors FROM products";
  $exe=mysqli_query($conn,$query); 

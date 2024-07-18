@@ -2,19 +2,27 @@
 header("Access-Control-Allow-Origin: *");
 header('Content-Type: application/json');
 
-include "connect2.php";
+include "Connect.php";
 
-$email=$_GET['email'];
-$password=$_GET['password'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-$sql="SELECT * FROM 'users' WHERE Email= :email";
-$sql .= "AND Password= :password ";
-$stmt= $conn->prepare($sql);
-$stmt->bindParam(":email", $email);
-$stmt->bindParam(":password", $password);
-$stmt->execute();
-$returnValue = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $query = "SELECT User_Role,ID FROM users WHERE Email = '$email' AND  Password = '$password'";
+    $result = $conn->query($query);
 
-echo json_encode($returnValue);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $role = $row['User_Role'];
+
+        echo json_encode(array('User_Role' => $role));
+    } else {
+        echo json_encode(array('error' => 'Invalid email or password'));
+    }
+}
+
+$conn->close();
+
+
 
   

@@ -1,84 +1,56 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-//`Cust_Id`, `Cust_Firstname`,
- //`Cust_Lastname`,
- //`Cust_Phonenumber`,
-  //`Cust_Location`,
-   //`Email`,
-  //`Cust_Dateofbirth`, `Cust_Gender`, `Cust_National_Idno`
- 
 include('Connect.php');
 
-$id=uniqid();
-$role="Customer";
-$default_status="Approved";
+$id = uniqid();
+$role = "Customer";
+$default_status = "Approved";
 
-if(isset($_POST["email"])){
-  $email=$_POST["email"];
+// Check if all required POST variables are set
+if (!isset($_POST["email"]) ||!isset($_POST["password"]) ||!isset($_POST["firstname"]) ||!isset($_POST["lastname"]) ||!isset($_POST["idnumber"]) ||!isset($_POST["phone"]) ||!isset($_POST["location"])) {
+    return;
+}
 
-}
-else return;
-if(isset($_POST["password"])){
-  $password=$_POST["password"];
-}
-else return;
-if(isset($_POST["firstname"])){
-  $firstname=$_POST["firstname"];
-}
-else return;
-if(isset($_POST["lastname"])){
-  $lastname=$_POST["lastname"];
-}
-else return;
-if(isset($_POST["idnumber"])){
-  $idnumber=$_POST["idnumber"];
-}
-else return;
-if(isset($_POST["phone"])){
-  $phone=$_POST["phone"];
-}
-else return;
-if(isset($_POST["location"])){
-  $location=$_POST["location"];
-}
-else return;
-echo"$email";
+$email = $_POST["email"];
+$password = $_POST["password"];
+$firstname = $_POST["firstname"];
+$lastname = $_POST["lastname"];
+$idnumber = $_POST["idnumber"];
+$phone = $_POST["phone"];
+$location = $_POST["location"];
 
 
-    $sql="INSERT INTO `users`(`ID`, `Email`, `Password`, `User_Role`, `Account_status`) 
-          VALUES ( '$id','$email','$password','$role','$default_status')";
-    $exe=$conn->query($sql);
 
-    $sql1="INSERT INTO `customer_details`(`Cust_Id`, `Cust_Firstname`, `Cust_Lastname`,
-           `Cust_Phonenumber`, `Cust_Location`, `Email,`Cust_National_Idno`)
+
+
+
+// Insert into customer_details table
+$sql1 = "INSERT INTO `customer_details`(`Cust_Id`, `Cust_Firstname`, `Cust_Lastname`, 
+           `Cust_Phonenumber`, `Cust_Location`, `Email`, `Cust_National_Idno`)
            VALUES ('$id','$firstname','$lastname','$phone','$location','$email','$idnumber')";
-    $exe1=$conn->query($sql1);
-    
-   
-
-    $arr=[];
-    if($exe === true && $exe1 === true)
-    {
-      $arr["success"]=["true"];
-     
-    }
-    else{
-      $arr["success"]=["false"];
-      
-    }
-
-    if($exe1 === true)
-    {
-      $arr["success"]=["true"];
-     
-    }
-    else{
-      $arr["success"]=["false"];
-      
-    }
-    print(json_encode($arr));
-    
 
 
-                                        
-                                       
+$query = "SELECT * FROM users WHERE Email = '$email'";
+$result = mysqli_query($conn, $query);
+if (mysqli_num_rows($result) > 0) {
+  echo json_encode(array('success' => false, 'message' => 'Email already exists'));
+  exit;
+}
+$err= mysqli_query($conn, $sql1);
+// Create new user
+$query = "INSERT INTO `users`(`ID`, `Email`, `Password`, `User_Role`, `Account_status`) 
+        VALUES ( '$id','$email','$password','$role','$default_status')";
+if (mysqli_query($conn, $query) ) {
+  echo json_encode(array('success' => true));
+} else {
+  echo json_encode(array('success' => false, 'message' => 'Error creating user'));
+}
+
+// Close connection
+mysqli_close($conn);
+
+
+
+
+
+
+

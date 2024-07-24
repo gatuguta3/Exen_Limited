@@ -119,7 +119,9 @@ require_once("connect.php");
                                 <th>Description</th>
                                 <th>Description Image</th>
                                 <th>Status</th>
-                                <th>Employee Id</th>
+                                <th>Supervisor Id</th>
+                                <th>Installer Id</th>
+                                <th>Designer Id</th>
                                 <th>Start date</th>
                                 
                               </tr>
@@ -137,16 +139,23 @@ require_once("connect.php");
                                     while( $rows = mysqli_fetch_assoc($result)){
                                       ?>
                                       <tr>
-                                        <td><?php echo $row["Serv_id"] ?></td>
-                                        <td><?php echo $row["Type"] ?></td>
-                                        <td><?php echo $row["Date_Booked"] ?></td>
-                                        <td><?php echo $row["Date_Completed"] ?></td>
-                                        <td><?php echo $row["Cust_Id"] ?></td>
-                                        <td><?php echo $row["Description"] ?></td>
-                                        <td><?php echo $row["Description_Image"] ?></td>
-                                        <td><?php echo $row["Status"] ?></td>
-                                        <td><?php echo $row["Emp_Id"] ?></td>
-                                        <td><?php echo $row["Start_Date"] ?></td>
+                                        <td><?php echo $rows["Serv_id"] ?></td>
+                                        <td><?php echo $rows["Type"] ?></td>
+                                        <td><?php echo $rows["Date_Booked"] ?></td>
+                                        <td><?php echo $rows["Date_Completed"] ?></td>
+                                        <td><?php echo $rows["Cust_Id"] ?></td>
+                                        <td><?php echo $rows["Description"] ?></td>
+                                        <td><?php 
+                                        $image= $rows["Description_Image"];
+                                        $img_data = base64_encode($image);
+                                        $img_src = "data:image/jpeg;base64," . $img_data;
+                                        echo" <img src='$img_src' style='width:30px;height:30px;border:2px solid gray;border-radius:8px;object-fit:cover'>";
+                                         ?></td>
+                                        <td><?php echo $rows["Status"] ?></td> 
+                                        <td><?php echo $rows["Supervisor_Id"] ?></td>
+                                        <td><?php echo $rows["Installer_Id"] ?></td>
+                                        <td><?php echo $rows["Designer_Id"] ?></td>                                          
+                                        <td><?php echo $rows["Start_Date"] ?></td>
                                       </tr>
                                       <?php
                                     }

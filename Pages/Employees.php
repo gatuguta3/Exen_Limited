@@ -26,15 +26,16 @@ if (isset($_POST['Submit_emp']) ){
     $sql5= "INSERT INTO users (ID,Email,Password,User_Role, Account_status)
           VALUES ('$empid','$empemail','$pass','$emprole','$default_status')";
 
-  if ($conn->query($sql4,) === TRUE) {
-    if ($result3->num_rows > 0) {
-      while ($row3 = $result3->fetch_assoc()) {
-       header('location:Employees.php');    
-  }
-  } else {
-      echo "Failed " ;
-  }}
-  if($conn->query($sql5) === TRUE){
+if ($conn->query($sql5,) === TRUE) {
+  if ($result3->num_rows > 0) {
+    while ($row3 = $result3->fetch_assoc()) {
+     header('location:Employees.php');    
+}
+} else {
+    echo "Failed " ;
+}}
+  
+  if($conn->query($sql4) === TRUE){    
     
   }else{
     echo "Failed " ; 

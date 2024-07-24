@@ -13,9 +13,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        $role = $row['User_Role'];
-
-        echo json_encode(array('User_Role' => $role));
+        $role = $row['User_Role']; 
+        $id = $row['ID'];
+        //echo json_encode(array('User_Role' => $role)); 
+        //echo json_encode(array('ID' => $id));
+        $response = array(
+           'User_Role' => $role,
+            'User_Id' => $id
+        );
+        echo json_encode($response);
     } else {
         echo json_encode(array('error' => 'Invalid email or password'));
     }

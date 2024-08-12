@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: login.php");
+    exit();
+}
 require_once("connect.php");
 $sql3 = "SELECT * FROM employee_details";
 $result3 = $conn->query($sql3);

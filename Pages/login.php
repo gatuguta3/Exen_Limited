@@ -1,15 +1,8 @@
 <?php
 
-$host="Localhost";
-$pass="";
-$user="root";
-$db="exen-limited";
+include 'connect.php';
 
-$conn=mysqli_connect($host,$user,$pass,$db);
-
-if($conn-> connect_error){
-    echo "connection failed" .$conn-> connect_error;
-}
+session_start();
 
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get data from form
@@ -19,13 +12,17 @@ if($conn-> connect_error){
     $sql="SELECT `Email`, `Password` FROM users WHERE Email='$email' AND Password='$password'";
     $result = $conn->query($sql);
    if($result->num_rows > 0) {
+      $_SESSION['loggedin'] = true;
+      $_SESSION['email'] = $email;
       $redirect_url = "Dashboard.php";
       header("Location: $redirect_url");
       exit;      
     } 
     else{
-      $redirect_url = "Login.php";
-      header("Location: $redirect_url");
+      $error = " <p style='color: red;'>
+                    Email does not exist OR  Incorrect Password;
+                </p>";
+     
     }
           
   }
@@ -192,7 +189,9 @@ if($conn-> connect_error){
           <input type="Password" id="password" name="password" id="password" placeholder="Password" required>
         </div><br><br>
         <button type="submit" class="submit ">Login</button>        
-      </form><br>       
+      </form><br>    
+      
     </div>
+    <?php if (isset($error)) echo "<p>$error</p>"; ?>
     </body>
 </html>

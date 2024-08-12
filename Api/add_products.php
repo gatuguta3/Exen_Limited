@@ -3,7 +3,7 @@ include 'Connect.php';
  header("Access-Control-Allow-Origin: *");
  header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
-/* $id=uniqid();
+ $id=uniqid();
  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
     $brand = $_POST['brand'];
@@ -61,9 +61,9 @@ include 'Connect.php';
                 */
 
     // Insert product details into database
- /*   $sql = "INSERT INTO products (`Product_Id`,`Product_Name`, `Product_Description`,
+    $sql = "INSERT INTO products (`Product_Id`,`Product_Name`, `Product_Description`,
      `brand`,`Category`,`Initial_Cost`,`Product_Price`,`Quantity`, `Available_Colors`,`Image`)
-      VALUES ('$id','$name','$description','$brand','$category','$buyingprice','$sellingprice','$quantity',''$colors, '$image_url')";
+      VALUES ('$id','$name','$description','$brand','$category','$buyingprice','$sellingprice','$quantity','$colors', '$image_url')";
     if ($conn->query($sql) === TRUE) {
         echo "Product created successfully";
     } else {
@@ -71,4 +71,4 @@ include 'Connect.php';
     }
 }
 
-$conn->close(); */
+$conn->close(); 

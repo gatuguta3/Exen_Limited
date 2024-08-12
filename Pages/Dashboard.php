@@ -1,4 +1,11 @@
 <?php
+
+session_start();
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: login.php");
+    exit();
+}
+
 include 'connect.php';
 
     $sql = "SELECT COUNT(*) AS row_count FROM customer_details";
@@ -80,7 +87,7 @@ $result4 = $conn->query($sql4);
                 // jQuery methods go here...
 
                 $(modal_logout_btn).click(function(){
-                    window.location.href = "login.php";
+                    window.location.href = "logout.php";
                 });    
                 $(C_cust_btn).click(function(){
                     window.location.href = "Customers.php";
@@ -290,7 +297,7 @@ $result4 = $conn->query($sql4);
                                           
                                             </div>
                                      </div>
-                        </div><br><br>
+                        </div>
 
                         <div class="row">
 
@@ -344,14 +351,15 @@ $result4 = $conn->query($sql4);
                                   <i class="bi bi-funnel"></i>
                                   </button>
                                   <ul class="dropdown-menu">
-                                  <li><a class="dropdown-item"  href='#' >Customers</a></li>
-                                  <li><a class="dropdown-item"  href='#' >Employees</a></li>
-                                  <li><a class="dropdown-item"  href='#' >Suppliers</a></li>
+                                  <li><a class="dropdown-item"  href='?role=Customer' >Customers</a></li>
+                                  <li><a class="dropdown-item"  href='?role=Employee' >Employees</a></li>
+                                  <li><a class="dropdown-item"  href='?role=Supplier' >Suppliers</a></li>
                                   </ul></div><br>                                        
                                     <table class="table table-striped">
                                         <thead class=" table-dark">
                                         <tr>
                                             <th>Email</th>
+                                            <th>User Id</th>
                                             <th>Role</th>
                                             <th>Account status</th>                                
                                             <th>Actions</th>                                            
@@ -359,35 +367,51 @@ $result4 = $conn->query($sql4);
                                         </thead>
                                         <tbody>
                                          
-                                        <?php
+                                       <?php
 
-                                    if ($result3->num_rows > 0) {
-                                    while ($row3 = $result3->fetch_assoc()) {
-                                        $email=$row3["Email"];
-                                        $Role=$row3["User_Role"] ;
-                                        $Accountstatus=$row3["Account_status"];                                        
-                                        echo "<tr>";
-                                        echo "<td>" . $email ."</td>";
-                                        echo "<td>" . $Role."</td>";
-                                        echo "<td>" . $Accountstatus."</td>";                                       
-                                        echo "<td>" ;
-                                        echo "<div class='dropdown'>
-                                                  <button type='button' class='btn btn-outline-dark dropdown-toggle' data-bs-toggle='dropdown'>
-                                                  <i class='bi bi-gear'></i>
-                                                  </button>
-                                                <ul class='dropdown-menu'>
-                                                <li><a class='dropdown-item' href='javascript:void()' >Approve account</a></li>
-                                                <li><a class='dropdown-item' href='javascript:void()'>Disable account</a></li>
-                                                </ul>
-                                              </div>";
-                                        echo "</td>";
-                                        echo "</tr>"; 
-                                      }}else {
-                                        echo "<tr><td colspan='3'>No data found</td></tr>";
-                                    }
+$role = isset($_GET['role']) ? $_GET['role'] : '';
 
+// Build SQL query based on role
+if ($role) {
+    $sql = "SELECT * FROM users WHERE User_Role = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $role);
+} else {
+    $sql = "SELECT * FROM users";
+    $stmt = $conn->prepare($sql);
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Display the users
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>";
+        echo "<td>" . $row["Email"] . "</td>";
+        echo "<td>" . $row["ID"] . "</td>";
+        echo "<td>" . $row["User_Role"] . "</td>";
+        echo "<td>" . $row["Account_status"] . "</td>";
+        echo "<td>";
+        echo "<div class='dropdown'>
+                  <button type='button' class='btn btn-outline-dark dropdown-toggle' data-bs-toggle='dropdown'>
+                  <i class='bi bi-gear'></i>
+                  </button>
+                <ul class='dropdown-menu'>
+                <li><a class='dropdown-item' href='Functions/Accounts/approve.php?id=" . $row["ID"] . "'>Approve account</a></li>
+                <li><a class='dropdown-item' href='Functions/Accounts/disable.php?id=" . $row["ID"] . "'>Disable account</a></li>
+                </ul>
+              </div>";
+        echo "</td>";
+        echo "</tr>";
+    }
+} else {
+    echo "<tr><td colspan='5'>No data found</td></tr>";
+}
+
+$stmt->close();
                                     
-                                    ?>
+                                       ?>
                                         </tbody></table></div>
                                          
                               </div>        
@@ -436,6 +460,7 @@ $result4 = $conn->query($sql4);
   <p class="h3"> Exen Limited </p>
                 
 </div>
+<h6><?php echo htmlspecialchars($_SESSION['email']); ?></h6>
         </footer>
 
     </body>

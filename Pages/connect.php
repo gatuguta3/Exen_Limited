@@ -1,8 +1,6 @@
 <?php
 
-
-
-$host="Localhost";
+$host="localhost";
 $pass="";
 $user="root";
 $db="exen-limited";

@@ -22,7 +22,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
           ('$supid','$Sname','$Stype','$Slocation','$Spno','$SEmail','$Sdate')";
    
    $default_status="pending";
-   $role="supplier";
+   $role="Supplier";
    $pass="$Spno";
  
    $sql1="INSERT INTO users (ID,Email, Password ,User_Role, Account_status)

@@ -1,9 +1,9 @@
 <?php
 include "Connect.php";
 
-$user_id = isset($_POST['user_id']) ? $conn->real_escape_string($_POST['user_id']) : '';
+$userId = isset($_POST['user_id']) ? $conn->real_escape_string($_POST['user_id']) : '';
 
-if (empty($user_id)) {
+if (empty($userId)) {
     echo json_encode(["error" => "User ID is required"]);
     exit();
 }
@@ -12,9 +12,11 @@ if (empty($user_id)) {
 // `Emp_Id`, `Emp_Firstname`, `Emp_lastname`, `Emp_national_Id`,
 // `Emp_Phonenumber`, `Email`, `Emp_role`, `Emp_dateofbirth`,
 // `Emp_gender` FROM `employee_details` 
-$sql = "SELECT 
-        FROM  
-        WHERE Emp_Id = '$user_id'";
+$sql = "SELECT `Emp_Id`, `Emp_Firstname`, `Emp_lastname`, `Emp_national_Id`,
+ `Emp_Phonenumber`, `Email`, `Emp_role`, `Emp_dateofbirth`,
+ `Emp_gender`
+        FROM  `employee_details`
+        WHERE Emp_Id = '$userId'";
 
 // Execute the query
 $result = $conn->query($sql);

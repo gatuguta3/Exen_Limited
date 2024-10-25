@@ -35,7 +35,7 @@ require_once("connect.php");
             $("#Search_btn").click(function() {
                 var query = $("#Search_txt").val();
                 $.ajax({
-                    url: "Transactions_search.php",
+                    url: "Orders_search.php",
                     type: "POST",
                     data: { query: query },
                     success: function(response) {
@@ -118,13 +118,12 @@ require_once("connect.php");
                             <thead class="table-dark">
                               <tr>
                                 <th>Order Id</th>
+                                <th>Customer Id</th>
                                 <th>Amount</th>
+                                <th>Date payed</th> 
+                                <th>Status</th>
                                 <th>Products Ordered</th>
                                <!-- add an action button to display all the products ordered -->
-                                <th>Date payed</th>
-                                <th>Number of items</th>
-                                <th>Customer Id</th>
-                                <th>Status</th>
                                 
                               </tr>
                             </thead>

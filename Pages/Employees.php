@@ -1,8 +1,8 @@
 <?php
 session_start();
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: login.php");
-    exit();
+  header("Location: login.php");
+  exit();
 }
 require_once("connect.php");
 $sql3 = "SELECT * FROM employee_details";
@@ -11,40 +11,40 @@ $result3 = $conn->query($sql3);
 $roles=["Finance manager","Inventory manager","Dispatch manager","Service manager","Driver","Interior designer","Installer","Supervisor"];
 
 if (isset($_POST['Submit_emp']) ){
-  $empid=uniqid();
-  $empname = $_POST['FN_emp'];
-  $emplname = $_POST['LS_emp'];
-  $empidno= $_POST['ID_emp'];
-  $empphone= $_POST['Pno_emp'];
-  $empemail = $_POST['EM_emp'];
-  $emprole = $_POST['role'];
-  $empdate = $_POST['date_emp'];
-  $empgender= $_POST['optradio'];   
+$empid=uniqid(); // Generate the empid only once
+$empname = $_POST['FN_emp'];
+$emplname = $_POST['LS_emp'];
+$empidno= $_POST['ID_emp'];
+$empphone= $_POST['Pno_emp'];
+$empemail = $_POST['EM_emp'];
+$emprole = $_POST['role'];
+$empdate = $_POST['date_emp'];
+$empgender= $_POST['optradio'];   
 
+$sql4 =   "INSERT INTO employee_details (Emp_Id,Emp_Firstname,Emp_lastname,Emp_national_Id, Emp_Phonenumber,
+           Email,Emp_role,Emp_dateofbirth,Emp_gender) 
+           VALUES ('$empid', '$empname','$emplname','$empidno','$empphone','$empemail','$emprole',' $empdate ',' $empgender')";
 
-  $sql4 =   "INSERT INTO employee_details (Emp_Id,Emp_Firstname,Emp_lastname,Emp_national_Id, Emp_Phonenumber,
-             Email,Emp_role,Emp_dateofbirth,Emp_gender) 
-             VALUES ('$empid', '$empname','$emplname','$empidno','$empphone','$empemail','$emprole',' $empdate ',' $empgender')";
+  $default_status="Pending";
+  $pass="$empphone";
+  $sql5= "INSERT INTO users (ID,Email,Password,User_Role, Account_status)
+        VALUES ('$empid','$empemail','$pass','$emprole','$default_status')";
 
-    $default_status="Pending";
-    $pass="$empphone";
-    $sql5= "INSERT INTO users (ID,Email,Password,User_Role, Account_status)
-          VALUES ('$empid','$empemail','$pass','$emprole','$default_status')";
-
-if ($conn->query($sql5,) === TRUE) {
+if ($conn->query($sql5) === TRUE) {
+if ($conn->query($sql4) === TRUE){    
   if ($result3->num_rows > 0) {
     while ($row3 = $result3->fetch_assoc()) {
-     header('location:Employees.php');    
+      header('location:Employees.php');    
+    }
+  } else {
+    echo "Failed " ;
+  }
+} else {
+  echo "Failed to insert into employee_details table" ; 
 }
 } else {
-    echo "Failed " ;
-}}
-  
-  if($conn->query($sql4) === TRUE){    
-    
-  }else{
-    echo "Failed " ; 
-  }
+echo "Failed to insert into users table" ; 
+}
 }
 
 

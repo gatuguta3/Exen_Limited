@@ -114,12 +114,10 @@ require_once("connect.php");
                                 
                                 <th>Delivery Id</th>
                                 <th>Employee Id</th>
-                                <th>Date of delivery</th>
-                                <th>Cost of delivery</th>
+                                <th>Date of delivery</th>                                
                                 <th>Order Id</th>
-                                <th>Vehicle plate no</th>
-                                <th>Delivery Location</th>
-                                <th>Customer Id</th>
+                                <th>Vehicle plate no</th>                               
+                                
                                 <th>Status</th>                                
                               </tr>
                             </thead>
@@ -138,12 +136,9 @@ require_once("connect.php");
                                       <tr>
                                         <td><?php echo $row["Delivery_Id"] ?></td>
                                         <td><?php echo $row["Emp_Id"] ?></td>
-                                        <td><?php echo $row["Delivery_Date"] ?></td>
-                                        <td><?php echo $row["Delivery_Cost"] ?></td>
+                                        <td><?php echo $row["Delivery_Date"] ?></td>                                        
                                         <td><?php echo $row["Order_Id"] ?></td>
-                                        <td><?php echo $row["Vehicle_Id"] ?></td>
-                                        <td><?php echo $row["Delivery_Location"] ?></td>
-                                        <td><?php echo $row["Cust_Id"] ?></td>
+                                        <td><?php echo $row["Vehicle_Id"] ?></td>                                        
                                         <td><?php echo $row["Status"] ?></td>
                                       </tr>
 

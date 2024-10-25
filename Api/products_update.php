@@ -9,17 +9,19 @@ if (!isset($_POST['Product_Id']) || !isset($_POST['Product_Name']) || !isset($_P
     return;
 }
 
-$productId = intval($_POST['Product_Id']);
-$productName = $_POST['Product_Name'];
-$productDescription = $_POST['Product_Description'];
-$brand = $_POST['brand'];
-$category = $_POST['Category'];
-$initialCost = floatval($_POST['Initial_Cost']);
-$productPrice = floatval($_POST['Product_Price']);
-$quantity = intval($_POST['Quantity']);
-$availableColors = $_POST['Available_Colors'];
+$productId = mysqli_real_escape_string($conn, $_POST['Product_Id']);
+$productName = mysqli_real_escape_string($conn, $_POST['Product_Name']);
+$productDescription = mysqli_real_escape_string($conn, $_POST['Product_Description']);
+$brand = mysqli_real_escape_string($conn, $_POST['brand']);
+$category = mysqli_real_escape_string($conn, $_POST['Category']);
+$initialCost = mysqli_real_escape_string($conn, $_POST['Initial_Cost']);
+$productPrice = mysqli_real_escape_string($conn, $_POST['Product_Price']);
+$quantity = mysqli_real_escape_string($conn, $_POST['Quantity']);
+$availableColors = mysqli_real_escape_string($conn, $_POST['Available_Colors']);
 
-$query = "UPDATE products SET Product_Name='$productName', Product_Description='$productDescription', brand='$brand', Category='$category', Initial_Cost='$initialCost', Product_Price='$productPrice', Quantity='$quantity', Available_Colors='$availableColors' WHERE Product_Id='$productId'";
+$query = "UPDATE products SET Product_Name='$productName', Product_Description='$productDescription', brand='$brand',
+ Category='$category', Initial_Cost='$initialCost', Product_Price='$productPrice', Quantity='$quantity',
+  Available_Colors='$availableColors' WHERE Product_Id='$productId'";
 $exe = mysqli_query($conn, $query);
 
 $response = [];
@@ -32,3 +34,5 @@ if ($exe) {
 }
 
 echo json_encode($response);
+
+?>

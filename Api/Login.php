@@ -8,18 +8,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $query = "SELECT User_Role,ID FROM users WHERE Email = '$email' AND  Password = '$password'";
+    $query = "SELECT User_Role,ID,Account_status FROM users WHERE Email = '$email' AND  Password = '$password'";
     $result = $conn->query($query);
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $role = $row['User_Role']; 
         $id = $row['ID'];
+        $status=$row['Account_status'];
         //echo json_encode(array('User_Role' => $role)); 
         //echo json_encode(array('ID' => $id));
         $response = array(
            'User_Role' => $role,
-            'User_Id' => $id
+            'User_Id' => $id,
+            'Account_status' => $status
         );
         echo json_encode($response);
     } else {

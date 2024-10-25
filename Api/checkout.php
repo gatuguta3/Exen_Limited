@@ -9,7 +9,7 @@ $json = file_get_contents('php://input');
 $data = json_decode($json, true);
 
 // Validate if required parameters are present
-$required_params = ['user_id', 'Order_Id', 'amount', 'name', 'phone', 'address', 'landmark', 'town', 'county', 'mpesa_no', 'mpesa_transaction_id', 'bank_id', 'cart_items'];
+$required_params = ['user_id', 'Order_Id', 'amount', 'name', 'phone', 'address', 'landmark', 'town','delivery_fee','county', 'mpesa_no', 'mpesa_transaction_id', 'bank_id', 'cart_items'];
 
 foreach ($required_params as $param) {
     if (!isset($data[$param])) {
@@ -27,6 +27,7 @@ $phone_no = $data['phone'];
 $address = $data['address'];
 $landmark = $data['landmark'];
 $town = $data['town'];
+$delivery_fee=$data['delivery_fee'];
 $county = $data['county'];
 $mpesa_no = $data['mpesa_no'];
 $transaction_id = $data['mpesa_transaction_id'];
@@ -37,13 +38,14 @@ $date = date('Y-m-d');
 $time = date('H:i:s');
 $status = 'pending';
 $location_id = rand(1000, 9999);
+$payId =rand(1000, 9999);
 
 try {
     $conn->begin_transaction();
 
     // Insert delivery location
-    $sql = "INSERT INTO `delivery locations`(`Id`,`Cust_Id`, `Receiver_name`, `phone_no`, `county`, `town`, `Nearest_landmark`) 
-            VALUES ('$location_id','$cus_Id', '$receiver_name', '$phone_no', '$county', '$town', '$landmark')";
+    $sql = "INSERT INTO `delivery locations`(`Id`,`Order_id`,`Cust_Id`, `Receiver_name`, `phone_no`, `county`, `town`, `Nearest_landmark`) 
+            VALUES ('$location_id','$order_id','$cus_Id', '$receiver_name', '$phone_no', '$county', '$town', '$landmark')";
     if (!$conn->query($sql)) {
         $conn->rollback();
         echo json_encode(["success" => "false", "message" => "Error inserting delivery location: " . $conn->error]);
@@ -51,33 +53,25 @@ try {
     }
 
     // Insert order into orders table
-    $sql = "INSERT INTO `orders`(`Order_Id`, `Amount`, `Date_Payed`, `Cust_Id`, `Status`) 
-            VALUES ('$order_id', '$amount', '$date', '$cus_Id', '$status')";
+    $sql = "INSERT INTO `orders`(`Order_Id`, `Amount`, `Date_Payed`, `Cust_Id`,`delivery_fee`, `Status`) 
+            VALUES ('$order_id', '$amount', '$date', '$cus_Id','$delivery_fee', '$status')";
     if (!$conn->query($sql)) {
         $conn->rollback();
         echo json_encode(["success" => "false", "message" => "Error inserting order: " . $conn->error]);
         return;
     }
 
-    // Insert into mpesa_payments table
-    $sql = "INSERT INTO `mpesa_payments`(`Order_id`, `mpesa_number`, `mpesa_code`) 
-            VALUES ('$order_id', '$mpesa_no', '$transaction_id')";
-    if (!$conn->query($sql)) {
-        $conn->rollback();
-        echo json_encode(["success" => "false", "message" => "Error inserting mpesa payment: " . $conn->error]);
-        return;
-    }
-
-    // Insert into bank_payments table if bank_id is provided
-    if (!empty($bank_id)) {
-        $sql = "INSERT INTO `bank_payments`(`Order_id`, `Acc_no`, `transaction_id`) 
-                VALUES ('$order_id', '$bank_id', '$transaction_id')";
-        if (!$conn->query($sql)) {
-            $conn->rollback();
-            echo json_encode(["success" => "false", "message" => "Error inserting bank payment: " . $conn->error]);
-            return;
-        }
-    }
+   // Insert into payments table
+   $method = !empty($bank_id) ? 'bank' : 'mpesa'; // Determine payment method
+   $acc_no = !empty($bank_id) ? mysqli_real_escape_string($conn, $bank_id) : null; // Bank account number
+   $sql = "INSERT INTO `payments`(`pay_id`,`Order_id`, `Method`, `Acc_no`, `mpesa_number`, `mpesa_code`,`Date_Paid`) 
+           VALUES ('$payId','$order_id','$method', '$acc_no', '$mpesa_no', '$transaction_id', '$date')";
+   
+   if (!$conn->query($sql)) {
+       $conn->rollback();
+       echo json_encode(["success" => "false", "message" => "Error inserting payment: " . $conn->error]);
+       return;
+   }
 
     if (isset($data['cart_items'])) {
         $cart_items = json_decode($data['cart_items'], true);
@@ -94,16 +88,48 @@ try {
             $product_id = $item['product_id'];
             $product_name = $item['product_name'];
             $price = $item['product_price'];
-            $quantity = $item['quantity'];
+            $quantity = (int)$item['quantity'];
+
+            $newquantity1 = ($quantity == 0) ? 1 : $quantity;
     
-            $sql = "INSERT INTO `products_ordered`(`Order_id`, `Product_Id`, `Product_name`, `Price`, `Quantity`) 
-                    VALUES ('$order_id', '$product_id', '$product_name', '$price', '$quantity')";
-            if (!$conn->query($sql)) {
+            // Step 1: Fetch the current quantity of the product
+            $query = "SELECT `Quantity` FROM `products` WHERE `Product_Id`='$product_id'";
+            $result = $conn->query($query);
+    
+            if ($result) {
+                $row = $result->fetch_assoc();
+                $currentQuantity = $row['Quantity'];
+    
+                // Step 2: Check if there is enough quantity to fulfill the order
+                if ($currentQuantity >= $newquantity1) {
+                    // Step 3: Deduct the ordered quantity from the current stock
+                    $newQuantity = $currentQuantity - $newquantity1;
+                    $updateQuery = "UPDATE `products` SET `Quantity`='$newQuantity' WHERE `Product_Id`='$product_id'";
+                    
+                    if (!$conn->query($updateQuery)) {
+                        $conn->rollback();
+                        echo json_encode(["success" => "false", "message" => "Error updating product quantity: " . $conn->error]);
+                        return;
+                    }
+    
+                    // Step 4: Insert the order details into the products_ordered table
+                    $sql = "INSERT INTO `products_ordered`(`Order_id`, `Product_Id`, `Product_name`, `Price`, `Quantity`) 
+                            VALUES ('$order_id', '$product_id', '$product_name', '$price', '$newquantity1')";
+                    
+                    if (!$conn->query($sql)) {
+                        $conn->rollback();
+                        echo json_encode(["success" => "false", "message" => "Error inserting product ordered: " . $conn->error]);
+                        return;
+                    }
+                } else {
+                    echo json_encode(["success" => "false", "message" => "Not enough quantity available for product ID: $product_id"]);
+                    return;
+                }
+            } else {
                 $conn->rollback();
-                echo json_encode(["success" => "false", "message" => "Error inserting product ordered: " . $conn->error]);
+                echo json_encode(["success" => "false", "message" => "Error fetching product quantity: " . $conn->error]);
                 return;
             }
-            var_dump($item);
         }
     } else {
         echo "Error: cart_items is not an array.";

@@ -15,13 +15,21 @@ if (isset($_GET['id'])) {
     // Update the account status
     $sql = "UPDATE users SET Account_status='Approved' WHERE ID=?";
     $stmt = $conn->prepare($sql);
+
+    if (!$stmt) {
+        die("Preparation failed: " . $conn->error);
+    }
+
     $stmt->bind_param("i", $id);
     $stmt->execute();
 
-    if ($stmt->affected_rows > 0) {
+    // Check for errors during execution
+    if ($stmt->error) {
+        echo "Failed to execute query: " . $stmt->error;
+    } elseif ($stmt->affected_rows > 0) {
         echo "Account approved successfully.";
     } else {
-        echo "Failed to approve the account.";
+        echo "Failed to approve the account. No rows were affected.";
     }
 
     $stmt->close();

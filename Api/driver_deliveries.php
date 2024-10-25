@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 header("Access-Control-Allow-Origin: *");
 header('Content-Type: application/json');
@@ -13,34 +13,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 
     $userId = mysqli_real_escape_string($conn, $_GET['user_id']);
-
-    $sql = "SELECT Serv_id, Type, Date_Booked, Cust_Id,
-             Description, Status 
-            FROM services 
-            WHERE Cust_Id = '$userId'";
-
+    $sql="SELECT `Delivery_Id`, `Delivery_Date`, `Order_Id` FROM `deliveries` WHERE Driver_Id ='$userId' AND `Status` = 'In Transit'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
-        $services = [];
+        $deliveries = array();        
         while($row = $result->fetch_assoc()) {
-            $services[] = [
-                'Serv_id' => $row['Serv_id'],
-                'Type' => $row['Type'],
-                'Date_Booked' => $row['Date_Booked'],
-                'Cust_Id' => $row['Cust_Id'],
-                'Description' => $row['Description'],                
-                'Status' => $row['Status']
+            $deliveries[] = [
+                "Delivery_Id" => $row["Delivery_Id"],
+                "Delivery_Date" => $row ["Delivery_Date"],
+                "Order_Id" => $row["Order_Id"],
             ];
+
         }
-        echo json_encode($services);
+        echo json_encode($deliveries);
     } else {
         echo json_encode([]);
     }
+
+
 } else {
     echo json_encode(["message" => "Invalid request method"]);
     http_response_code(405);
 }
 
 mysqli_close($conn);
-
